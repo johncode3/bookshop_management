@@ -134,5 +134,38 @@ namespace BookShopWinFrm.BusinessLayer
             var headerBounds = new Rectangle(e.RowBounds.Left, e.RowBounds.Top, grid.RowHeadersWidth, e.RowBounds.Height);
             e.Graphics.DrawString(rowIdx, this.Font, SystemBrushes.ControlText, headerBounds, centerFormat);
         }
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            if (DialogResult.OK == new FrmVendorAddEdit(null).ShowDialog())
+            {
+                LoadData();
+            }
+        }
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            if (dgVendors.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a vendor to edit.", "Edit Vendor", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            int vendorId = Convert.ToInt32(dgVendors.SelectedRows[0].Cells["VendorId"].Value);
+            Vendor vendor = VendorService.Get(vendorId);
+            FrmVendorAddEdit frmVendorAddEdit = new FrmVendorAddEdit(vendor);
+            if (frmVendorAddEdit.ShowDialog() == DialogResult.OK)
+            {
+                LoadData();
+            }
+        }
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            DialogResult confirm = MessageBox.Show("Are you sure you want to delete the selected vendor?", "Delete Vendor", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirm == DialogResult.Yes)
+            {
+                int vendorId = Convert.ToInt32(dgVendors.SelectedRows[0].Cells["VendorId"].Value);
+                VendorService.Delete(vendorId);
+                LoadData();
+                MessageBox.Show("Vendor deleted successfully.", "Delete Vendor", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
     }
 }
