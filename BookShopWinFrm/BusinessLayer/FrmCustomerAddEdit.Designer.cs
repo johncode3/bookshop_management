@@ -225,7 +225,7 @@
             // 
             lblTitle.AutoSize = true;
             lblTitle.Font = new Font("Kh Pen Wappathor", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTitle.Location = new Point(78, 9);
+            lblTitle.Location = new Point(127, 9);
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(284, 62);
             lblTitle.TabIndex = 0;

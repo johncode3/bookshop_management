@@ -108,8 +108,6 @@ namespace BookShopWinFrm.DataLayer.Services
             command.Parameters.Add("P_ItemId", purchaseDetail.ItemId);
             command.Parameters.Add("P_Description", purchaseDetail.Description);
             command.Parameters.Add("P_Quantity", purchaseDetail.Quantity);
-            command.Parameters.Add("P_UnitPriceAtSale", purchaseDetail.UnitPriceAtSale);
-            command.Parameters.Add("P_DiscountAmount", purchaseDetail.DiscountAmount);
             command.Parameters.Add("P_Price", purchaseDetail.Price);
             
             command.ExecuteNonQuery();

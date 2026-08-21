@@ -136,7 +136,8 @@ namespace BookShopWinFrm.BusinessLayer
         }
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            if (DialogResult.OK == new FrmVendorAddEdit(null).ShowDialog())
+            FrmVendorAddEdit frmAddEdit = new FrmVendorAddEdit(null);
+            if (frmAddEdit.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
             }
@@ -158,13 +159,18 @@ namespace BookShopWinFrm.BusinessLayer
         }
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            if (dgVendors.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a vendor to delete.", "Delete Vendor", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
             DialogResult confirm = MessageBox.Show("Are you sure you want to delete the selected vendor?", "Delete Vendor", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            int vendorId = Convert.ToInt32(dgVendors.SelectedRows[0].Cells["VendorId"].Value);
             if (confirm == DialogResult.Yes)
             {
-                int vendorId = Convert.ToInt32(dgVendors.SelectedRows[0].Cells["VendorId"].Value);
+                MessageBox.Show("Vendor deleted successfully.", "Delete Vendor", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 VendorService.Delete(vendorId);
                 LoadData();
-                MessageBox.Show("Vendor deleted successfully.", "Delete Vendor", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }

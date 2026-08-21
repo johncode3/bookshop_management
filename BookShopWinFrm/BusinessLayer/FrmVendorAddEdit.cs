@@ -1,6 +1,4 @@
-using BookShopWinFrm.DataLayer.Model;
-using BookShopWinFrm.DataLayer.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BookShopWinFrm.DataLayer.Model;
+using BookShopWinFrm.DataLayer.Services;
 
 namespace BookShopWinFrm.BusinessLayer
 {
@@ -16,7 +16,6 @@ namespace BookShopWinFrm.BusinessLayer
     {
         Vendor vendor;
         bool newvendor;
-
         public FrmVendorAddEdit(Vendor vendor)
         {
             InitializeComponent();

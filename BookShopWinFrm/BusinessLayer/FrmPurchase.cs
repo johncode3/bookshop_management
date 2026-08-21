@@ -1,4 +1,4 @@
-using BookShopWinFrm.DataLayer.Model;
+﻿using BookShopWinFrm.DataLayer.Model;
 using BookShopWinFrm.DataLayer.Services;
 using System;
 using System.Collections.Generic;
@@ -49,7 +49,7 @@ namespace BookShopWinFrm.BusinessLayer
                 colNo.HeaderText = "No.";
                 colNo.Width = 50;
                 colNo.DisplayIndex = 0;
-                dgSales.Columns.Insert(0, colNo);
+                dgPurchases.Columns.Insert(0, colNo);
             }
             else
             {
@@ -123,7 +123,7 @@ namespace BookShopWinFrm.BusinessLayer
             {
                 {
                     e.Handled = true;
-                    using (Brush b = new SolidBrush(dgSales.DefaultCellStyle.BackColor))
+                    using (Brush b = new SolidBrush(dgPurchases.DefaultCellStyle.BackColor))
                     {
                         e.Graphics.FillRectangle(b, e.CellBounds);
                     }
@@ -146,23 +146,23 @@ namespace BookShopWinFrm.BusinessLayer
         }
         private void Search(string searchText)
         {
-            if (dtSale == null)
+            if (dtPurchase == null)
                 return;
             if (string.IsNullOrWhiteSpace(searchText))
             {
-                dtSale.DefaultView.RowFilter = string.Empty;
-                dgSales.DataSource = dtSale;
+                dtPurchase.DefaultView.RowFilter = string.Empty;
+                dgPurchases.DataSource = dtPurchase;
                 return;
             }
             string s = searchText.Trim().Replace("'", "''");
             string filter = $"VendorName LIKE '%{s}%' OR RefNumber LIKE '%{s}%' OR EmployeeName LIKE '%{s}%'";
 
-            dtSale.DefaultView.RowFilter = filter;
-            dgSales.DataSource = dtSale.DefaultView;
+            dtPurchase.DefaultView.RowFilter = filter;
+            dgPurchases.DataSource = dtPurchase.DefaultView;
         }
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            FrmPurchaseAddEdit frmAddEdit = new FrmPurchaseAddEdit(null);
+            FrmPurchaseAddEdit frmAddEdit = new FrmPurchaseAddEdit();
             if (frmAddEdit.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -177,7 +177,7 @@ namespace BookShopWinFrm.BusinessLayer
             }
             int purchaseid = Convert.ToInt32(dgPurchases.SelectedRows[0].Cells["PurchaseId"].Value.ToString());
             Purchase purchase = PurchaseService.Get(purchaseid);
-            FrmPurchaseAddEdit frmAddEdit = new FrmPurchaseAddEdit(purchase);
+            FrmPurchaseAddEdit frmAddEdit = new FrmPurchaseAddEdit();
             if (frmAddEdit.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -187,11 +187,11 @@ namespace BookShopWinFrm.BusinessLayer
         {
             if (dgPurchases.SelectedRows.Count <= 0)
             {
-                MessageBox.Show("Please select a purchase first to cancel.","System",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                MessageBox.Show("Please select a purchase first to cancel.", "System", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            DialogResult confirm = MessageBox.Show("Confirmation!\nDo you really want to cancel this purchase?","Confirmation",
+            DialogResult confirm = MessageBox.Show("Confirmation!\nDo you really want to cancel this purchase?", "Confirmation",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
@@ -202,12 +202,12 @@ namespace BookShopWinFrm.BusinessLayer
 
                 if (purchase == null)
                 {
-                    MessageBox.Show("Purchase not found.","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                    MessageBox.Show("Purchase not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 purchase.Status = "Cancelled";
                 PurchaseService.Delete(purchase);
-                MessageBox.Show("Purchase cancelled successfully.","Information", MessageBoxButtons.OK,MessageBoxIcon.Information);
+                MessageBox.Show("Purchase cancelled successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 LoadData();
             }

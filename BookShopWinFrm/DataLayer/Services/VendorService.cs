@@ -42,16 +42,29 @@ namespace BookShopWinFrm.DataLayer.Services
             reader.Close();
             return vendor;
         }
-        public static void Add(Vendor vendor)
+        public static int Add(Vendor vendor)
         {
             OracleCommand command = new OracleCommand("VendorAdd", POSContext.GetConnection());
             command.CommandType = CommandType.StoredProcedure;
+
+            int newId = 0;
             command.Parameters.Add("P_VendorName", vendor.VendorName);
             command.Parameters.Add("P_CompanyName", vendor.CompanyName);
             command.Parameters.Add("P_Phone", vendor.Phone);
             command.Parameters.Add("P_Email", vendor.Email);
             command.Parameters.Add("P_Address", vendor.Address);
+
+            OracleParameter outId = new OracleParameter("P_ItemId", OracleDbType.Int32);
+            outId.Direction = ParameterDirection.Output;
+            command.Parameters.Add(outId);
+
             command.ExecuteNonQuery();
+
+            if (outId.Value != null && outId.Value != DBNull.Value)
+            {
+                newId = Convert.ToInt32(outId.Value.ToString());
+            }
+            return newId;
         }
         public static void Update(Vendor vendor)
         {

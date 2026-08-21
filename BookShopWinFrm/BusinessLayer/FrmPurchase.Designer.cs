@@ -1,6 +1,6 @@
 ﻿namespace BookShopWinFrm.BusinessLayer
 {
-    partial class FrmVendor
+    partial class FrmPurchase
     {
         /// <summary>
         /// Required designer variable.
@@ -28,47 +28,45 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dgVendors = new DataGridView();
+            dgPurchases = new DataGridView();
             label1 = new Label();
             pnlToolbar = new Panel();
             label2 = new Label();
             txtSearch = new TextBox();
-            btnDelete = new Button();
+            btnCancel = new Button();
             btnEdit = new Button();
             btnAdd = new Button();
             pnlHeader = new Panel();
-            ((System.ComponentModel.ISupportInitialize)dgVendors).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgPurchases).BeginInit();
             pnlToolbar.SuspendLayout();
             pnlHeader.SuspendLayout();
             SuspendLayout();
             // 
-            // dgVendors
+            // dgPurchases
             // 
-            dgVendors.AllowUserToAddRows = false;
-            dgVendors.AllowUserToDeleteRows = false;
-            dgVendors.AllowUserToResizeColumns = false;
-            dgVendors.AllowUserToResizeRows = false;
-            dgVendors.BackgroundColor = Color.White;
-            dgVendors.BorderStyle = BorderStyle.None;
-            dgVendors.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgVendors.ColumnHeadersHeight = 40;
-            dgVendors.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dgVendors.Dock = DockStyle.Fill;
-            dgVendors.Location = new Point(0, 159);
-            dgVendors.MultiSelect = false;
-            dgVendors.Name = "dgVendors";
-            dgVendors.ReadOnly = true;
-            dgVendors.RowHeadersVisible = false;
-            dgVendors.RowHeadersWidth = 51;
-            dgVendors.RowTemplate.DefaultCellStyle.ForeColor = Color.Black;
-            dgVendors.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.Silver;
-            dgVendors.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.Black;
-            dgVendors.RowTemplate.Height = 30;
-            dgVendors.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgVendors.Size = new Size(1095, 557);
-            dgVendors.TabIndex = 7;
-            dgVendors.CellPainting += dgVendors_CellPainting;
-            dgVendors.RowPostPaint += dgVendors_RowPostPaint;
+            dgPurchases.AllowUserToAddRows = false;
+            dgPurchases.AllowUserToDeleteRows = false;
+            dgPurchases.AllowUserToResizeColumns = false;
+            dgPurchases.AllowUserToResizeRows = false;
+            dgPurchases.BackgroundColor = Color.White;
+            dgPurchases.BorderStyle = BorderStyle.None;
+            dgPurchases.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgPurchases.ColumnHeadersHeight = 40;
+            dgPurchases.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgPurchases.Dock = DockStyle.Fill;
+            dgPurchases.Location = new Point(0, 159);
+            dgPurchases.MultiSelect = false;
+            dgPurchases.Name = "dgPurchases";
+            dgPurchases.ReadOnly = true;
+            dgPurchases.RowHeadersVisible = false;
+            dgPurchases.RowHeadersWidth = 50;
+            dgPurchases.RowTemplate.DefaultCellStyle.ForeColor = Color.Black;
+            dgPurchases.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.Silver;
+            dgPurchases.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.Black;
+            dgPurchases.RowTemplate.Height = 30;
+            dgPurchases.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgPurchases.Size = new Size(1259, 508);
+            dgPurchases.TabIndex = 10;
             // 
             // label1
             // 
@@ -76,9 +74,9 @@
             label1.Font = new Font("Kh Pen Wappathor", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.Location = new Point(3, 9);
             label1.Name = "label1";
-            label1.Size = new Size(228, 62);
+            label1.Size = new Size(267, 62);
             label1.TabIndex = 0;
-            label1.Text = "Vendor List";
+            label1.Text = "Purchase List";
             // 
             // pnlToolbar
             // 
@@ -86,14 +84,14 @@
             pnlToolbar.BorderStyle = BorderStyle.Fixed3D;
             pnlToolbar.Controls.Add(label2);
             pnlToolbar.Controls.Add(txtSearch);
-            pnlToolbar.Controls.Add(btnDelete);
+            pnlToolbar.Controls.Add(btnCancel);
             pnlToolbar.Controls.Add(btnEdit);
             pnlToolbar.Controls.Add(btnAdd);
             pnlToolbar.Dock = DockStyle.Top;
             pnlToolbar.Location = new Point(0, 80);
             pnlToolbar.Name = "pnlToolbar";
-            pnlToolbar.Size = new Size(1095, 79);
-            pnlToolbar.TabIndex = 6;
+            pnlToolbar.Size = new Size(1259, 79);
+            pnlToolbar.TabIndex = 9;
             // 
             // label2
             // 
@@ -101,9 +99,9 @@
             label2.Font = new Font("Kh Pen Wappathor", 10F);
             label2.Location = new Point(580, 10);
             label2.Name = "label2";
-            label2.Size = new Size(136, 31);
+            label2.Size = new Size(143, 31);
             label2.TabIndex = 4;
-            label2.Text = "Search Vendor";
+            label2.Text = "Search For Sale";
             // 
             // txtSearch
             // 
@@ -111,23 +109,21 @@
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(242, 27);
             txtSearch.TabIndex = 3;
-            txtSearch.TextChanged += txtSearch_TextChanged;
             // 
-            // btnDelete
+            // btnCancel
             // 
-            btnDelete.BackColor = Color.FromArgb(220, 53, 69);
-            btnDelete.FlatAppearance.BorderColor = Color.White;
-            btnDelete.FlatAppearance.BorderSize = 0;
-            btnDelete.FlatStyle = FlatStyle.Flat;
-            btnDelete.Font = new Font("Kh Pen Wappathor", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(323, 19);
-            btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(138, 38);
-            btnDelete.TabIndex = 2;
-            btnDelete.Text = "Delete";
-            btnDelete.UseVisualStyleBackColor = false;
-            btnDelete.Click += btnDelete_Click;
+            btnCancel.BackColor = Color.FromArgb(220, 53, 69);
+            btnCancel.FlatAppearance.BorderColor = Color.White;
+            btnCancel.FlatAppearance.BorderSize = 0;
+            btnCancel.FlatStyle = FlatStyle.Flat;
+            btnCancel.Font = new Font("Kh Pen Wappathor", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCancel.ForeColor = Color.White;
+            btnCancel.Location = new Point(323, 19);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(172, 38);
+            btnCancel.TabIndex = 2;
+            btnCancel.Text = "Cancel Sale";
+            btnCancel.UseVisualStyleBackColor = false;
             // 
             // btnEdit
             // 
@@ -143,7 +139,6 @@
             btnEdit.TabIndex = 1;
             btnEdit.Text = "Edit";
             btnEdit.UseVisualStyleBackColor = false;
-            btnEdit.Click += btnEdit_Click;
             // 
             // btnAdd
             // 
@@ -159,7 +154,6 @@
             btnAdd.TabIndex = 0;
             btnAdd.Text = "Add";
             btnAdd.UseVisualStyleBackColor = false;
-            btnAdd.Click += btnAdd_Click;
             // 
             // pnlHeader
             // 
@@ -168,22 +162,20 @@
             pnlHeader.Dock = DockStyle.Top;
             pnlHeader.Location = new Point(0, 0);
             pnlHeader.Name = "pnlHeader";
-            pnlHeader.Size = new Size(1095, 80);
-            pnlHeader.TabIndex = 5;
+            pnlHeader.Size = new Size(1259, 80);
+            pnlHeader.TabIndex = 8;
             // 
-            // FrmVendor
+            // FrmPurchase
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1095, 716);
-            Controls.Add(dgVendors);
+            ClientSize = new Size(1259, 667);
+            Controls.Add(dgPurchases);
             Controls.Add(pnlToolbar);
             Controls.Add(pnlHeader);
-            Name = "FrmVendor";
-            Text = "FrmVendor";
-            WindowState = FormWindowState.Maximized;
-            Load += FrmVendor_Load;
-            ((System.ComponentModel.ISupportInitialize)dgVendors).EndInit();
+            Name = "FrmPurchase";
+            Text = "FrmPurchase";
+            ((System.ComponentModel.ISupportInitialize)dgPurchases).EndInit();
             pnlToolbar.ResumeLayout(false);
             pnlToolbar.PerformLayout();
             pnlHeader.ResumeLayout(false);
@@ -193,12 +185,12 @@
 
         #endregion
 
-        private DataGridView dgVendors;
+        private DataGridView dgPurchases;
         private Label label1;
         private Panel pnlToolbar;
         private Label label2;
         private TextBox txtSearch;
-        private Button btnDelete;
+        private Button btnCancel;
         private Button btnEdit;
         private Button btnAdd;
         private Panel pnlHeader;
