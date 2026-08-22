@@ -52,7 +52,6 @@ namespace BookShopWinFrm.BusinessLayer
             if (newsale)
             {
                 cmbCustomer.SelectedIndex = -1;
-                txtRefNumber.Text = "";
                 dtmSaleDate.Value = DateTime.Now;
                 cmbEmployee.SelectedIndex = -1;
                 cmbStatus.SelectedItem = "Completed";
@@ -519,6 +518,15 @@ namespace BookShopWinFrm.BusinessLayer
             if (frmCustomerAddEdit.ShowDialog() == DialogResult.OK)
             {
                 LoadCustomer();
+            }
+        }
+
+        private void btnEmployeeAdd_Click(object sender, EventArgs e)
+        {
+            FrmEmployeeAddEdit frmEmployeeAddEdit = new FrmEmployeeAddEdit(null);
+            if (frmEmployeeAddEdit.ShowDialog() == DialogResult.OK)
+            {
+                LoadEmployee();
             }
         }
     }

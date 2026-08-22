@@ -118,7 +118,8 @@ Create Table PurchaseDetail (
     ItemId           Number References Item(ItemId),
     Description      Varchar2(500),
     Quantity         Number(12,2),
-    Price            Number(12,2)
+    UnitPrice        Number(12,2),
+	TotalAmount		 Number(12,2)
 );
 /
 Create Table InventoryAdjustmentDetail (
@@ -127,7 +128,8 @@ Create Table InventoryAdjustmentDetail (
     ItemId                Number References Item(ItemId),
     Description           Varchar2(500),
     Quantity              Number(12,2),
-    Price                 Number(12,2)
+    UnitPrice        	  Number(12,2),
+	TotalAmount		 	  Number(12,2)
 );
 /
 Commit;

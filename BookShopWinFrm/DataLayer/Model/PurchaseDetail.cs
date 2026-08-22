@@ -13,6 +13,7 @@ namespace BookShopWinFrm.DataLayer.Model
         public int ItemId { get; set; }
         public string Description { get; set; } = string.Empty;
         public int Quantity { get; set; } = 0;
-        public decimal Price { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal TotalAmount { get; set; }
     }
 }

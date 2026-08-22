@@ -118,8 +118,7 @@ namespace BookShopWinFrm.DataLayer.Services
         }
         internal static void DeleteDetail(int saleid)
         {
-            OracleCommand command = new OracleCommand("SaleDetailDelete",
-            POSContext.GetConnection());
+            OracleCommand command = new OracleCommand("SaleDetailDelete", POSContext.GetConnection());
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add("P_SaleId", saleid);
             command.ExecuteNonQuery();

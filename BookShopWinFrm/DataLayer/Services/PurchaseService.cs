@@ -8,7 +8,7 @@ using BookShopWinFrm.DataLayer.Model;
 using Oracle.ManagedDataAccess.Client;
 
 namespace BookShopWinFrm.DataLayer.Services
-{
+{ 
     public class PurchaseService
     {
         //Purchase
@@ -108,15 +108,15 @@ namespace BookShopWinFrm.DataLayer.Services
             command.Parameters.Add("P_ItemId", purchaseDetail.ItemId);
             command.Parameters.Add("P_Description", purchaseDetail.Description);
             command.Parameters.Add("P_Quantity", purchaseDetail.Quantity);
-            command.Parameters.Add("P_Price", purchaseDetail.Price);
-            
+            command.Parameters.Add("P_UnitPrice", purchaseDetail.UnitPrice);
+            command.Parameters.Add("P_TotalAmount", purchaseDetail.TotalAmount);
+
             command.ExecuteNonQuery();
 
         }
         internal static void DeleteDetail(int purchaseid)
         {
-            OracleCommand command = new OracleCommand("PurchaseDetailDelete",
-           POSContext.GetConnection());
+            OracleCommand command = new OracleCommand("PurchaseDetailDelete", POSContext.GetConnection());
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add("P_PurchaseId", purchaseid);
             command.ExecuteNonQuery();

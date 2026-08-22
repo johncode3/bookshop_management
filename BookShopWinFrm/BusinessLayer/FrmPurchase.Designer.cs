@@ -67,6 +67,8 @@
             dgPurchases.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgPurchases.Size = new Size(1259, 508);
             dgPurchases.TabIndex = 10;
+            dgPurchases.CellPainting += dgPurchases_CellPainting;
+            dgPurchases.RowPostPaint += dgPurchases_RowPostPaint;
             // 
             // label1
             // 
@@ -97,7 +99,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Kh Pen Wappathor", 10F);
-            label2.Location = new Point(580, 10);
+            label2.Location = new Point(652, 10);
             label2.Name = "label2";
             label2.Size = new Size(143, 31);
             label2.TabIndex = 4;
@@ -105,10 +107,11 @@
             // 
             // txtSearch
             // 
-            txtSearch.Location = new Point(533, 44);
+            txtSearch.Location = new Point(605, 44);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(242, 27);
             txtSearch.TabIndex = 3;
+            txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // btnCancel
             // 
@@ -120,10 +123,11 @@
             btnCancel.ForeColor = Color.White;
             btnCancel.Location = new Point(323, 19);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(172, 38);
+            btnCancel.Size = new Size(232, 38);
             btnCancel.TabIndex = 2;
-            btnCancel.Text = "Cancel Sale";
+            btnCancel.Text = "Cancel Purchase";
             btnCancel.UseVisualStyleBackColor = false;
+            btnCancel.Click += btnCancel_Click;
             // 
             // btnEdit
             // 
@@ -139,6 +143,7 @@
             btnEdit.TabIndex = 1;
             btnEdit.Text = "Edit";
             btnEdit.UseVisualStyleBackColor = false;
+            btnEdit.Click += btnEdit_Click;
             // 
             // btnAdd
             // 
@@ -154,6 +159,7 @@
             btnAdd.TabIndex = 0;
             btnAdd.Text = "Add";
             btnAdd.UseVisualStyleBackColor = false;
+            btnAdd.Click += btnAdd_Click;
             // 
             // pnlHeader
             // 
@@ -175,6 +181,8 @@
             Controls.Add(pnlHeader);
             Name = "FrmPurchase";
             Text = "FrmPurchase";
+            WindowState = FormWindowState.Maximized;
+            Load += FrmPurchase_Load;
             ((System.ComponentModel.ISupportInitialize)dgPurchases).EndInit();
             pnlToolbar.ResumeLayout(false);
             pnlToolbar.PerformLayout();

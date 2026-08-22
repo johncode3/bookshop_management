@@ -33,13 +33,13 @@ namespace BookShopWinFrm.BusinessLayer
             {
                 dgPurchases.Columns["PurchaseId"].Visible = false;
             }
-            if (dgPurchases.Columns.Contains("CustomerId"))
-            {
-                dgPurchases.Columns["CustomerId"].Visible = false;
-            }
             if (dgPurchases.Columns.Contains("EmployeeId"))
             {
                 dgPurchases.Columns["EmployeeId"].Visible = false;
+            }
+            if (dgPurchases.Columns.Contains("VendorId"))
+            {
+                dgPurchases.Columns["VendorId"].Visible = false;
             }
 
             if (!dgPurchases.Columns.Contains("No"))
@@ -56,52 +56,42 @@ namespace BookShopWinFrm.BusinessLayer
                 dgPurchases.Columns["No"].DisplayIndex = 0;
             }
 
-            dgPurchases.Sort(dgPurchases.Columns["PurchaseId"], ListSortDirection.Descending);
+            if (dtPurchase.Rows.Count > 0 && dgPurchases.Columns.Contains("PurchaseId"))
+            {
+                dgPurchases.Sort(dgPurchases.Columns["PurchaseId"], ListSortDirection.Descending);
+            }
 
             dgPurchases.Columns["PurchaseDate"].HeaderText = "Date";
             dgPurchases.Columns["PurchaseDate"].Width = 150;
             dgPurchases.Columns["PurchaseDate"].DefaultCellStyle.Format = "dd/MMM/yyyy";
-            dgPurchases.Columns["PurchaseDate"].Visible = true;
-            dgPurchases.Columns["RefNumber"].DisplayIndex = 1;
+            dgPurchases.Columns["PurchaseDate"].DisplayIndex = 1;
 
-            dgPurchases.Columns["RefNumber"].HeaderText = "RefNumber";
+            dgPurchases.Columns["RefNumber"].HeaderText = "Ref Number";
             dgPurchases.Columns["RefNumber"].Width = 150;
             dgPurchases.Columns["RefNumber"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dgPurchases.Columns["RefNumber"].Visible = true;
             dgPurchases.Columns["RefNumber"].DisplayIndex = 2;
-
-            dgPurchases.Columns["VendorId"].Visible = false;
-            dgPurchases.Columns["VendorName"].DisplayIndex = 3;
 
             dgPurchases.Columns["VendorName"].HeaderText = "Vendor";
             dgPurchases.Columns["VendorName"].Width = 200;
-            dgPurchases.Columns["VendorName"].Visible = true;
-            dgPurchases.Columns["VendorName"].DisplayIndex = 4;
-
-            dgPurchases.Columns["EmployeeId"].Visible = false;
-            dgPurchases.Columns["EmployeeName"].DisplayIndex = 5;
+            dgPurchases.Columns["VendorName"].DisplayIndex = 3;
 
             dgPurchases.Columns["EmployeeName"].HeaderText = "Employee";
             dgPurchases.Columns["EmployeeName"].Width = 200;
-            dgPurchases.Columns["EmployeeName"].Visible = true;
-            dgPurchases.Columns["EmployeeName"].DisplayIndex = 5;
+            dgPurchases.Columns["EmployeeName"].DisplayIndex = 4;
 
             dgPurchases.Columns["TotalAmount"].HeaderText = "Total Amount";
             dgPurchases.Columns["TotalAmount"].Width = 150;
-            dgPurchases.Columns["TotalAmount"].Visible = true;
-            dgPurchases.Columns["TotalAmount"].DisplayIndex = 6;
+            dgPurchases.Columns["TotalAmount"].DisplayIndex = 5;
 
             dgPurchases.Columns["Status"].HeaderText = "Status";
-            dgPurchases.Columns["Status"].Width = 100;
-            dgPurchases.Columns["Status"].Visible = true;
-            dgPurchases.Columns["Status"].DisplayIndex = 7;
+            dgPurchases.Columns["Status"].Width = 150;
+            dgPurchases.Columns["Status"].DisplayIndex = 6;
 
             dgPurchases.Columns["Note"].HeaderText = "Note";
             dgPurchases.Columns["Note"].Width = 300;
             dgPurchases.Columns["Note"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dgPurchases.Columns["Note"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dgPurchases.Columns["Note"].Visible = true;
-            dgPurchases.Columns["Note"].DisplayIndex = 8;
+            dgPurchases.Columns["Note"].DisplayIndex = 7;
         }
         private void dgPurchases_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
@@ -162,7 +152,7 @@ namespace BookShopWinFrm.BusinessLayer
         }
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            FrmPurchaseAddEdit frmAddEdit = new FrmPurchaseAddEdit();
+            FrmPurchaseAddEdit frmAddEdit = new FrmPurchaseAddEdit(null);
             if (frmAddEdit.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -177,7 +167,7 @@ namespace BookShopWinFrm.BusinessLayer
             }
             int purchaseid = Convert.ToInt32(dgPurchases.SelectedRows[0].Cells["PurchaseId"].Value.ToString());
             Purchase purchase = PurchaseService.Get(purchaseid);
-            FrmPurchaseAddEdit frmAddEdit = new FrmPurchaseAddEdit();
+            FrmPurchaseAddEdit frmAddEdit = new FrmPurchaseAddEdit(purchase);
             if (frmAddEdit.ShowDialog() == DialogResult.OK)
             {
                 LoadData();

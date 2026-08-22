@@ -220,6 +220,7 @@
             btnEmployeeAdd.TabIndex = 30;
             btnEmployeeAdd.Text = "+";
             btnEmployeeAdd.UseVisualStyleBackColor = false;
+            btnEmployeeAdd.Click += btnEmployeeAdd_Click;
             // 
             // btnCustomerAdd
             // 

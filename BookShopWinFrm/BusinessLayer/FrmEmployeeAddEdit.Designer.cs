@@ -89,7 +89,7 @@
             cmbMaritalStatus.Location = new Point(342, 351);
             cmbMaritalStatus.Name = "cmbMaritalStatus";
             cmbMaritalStatus.Size = new Size(168, 28);
-            cmbMaritalStatus.TabIndex = 15;
+            cmbMaritalStatus.TabIndex = 12;
             // 
             // label6
             // 
@@ -139,7 +139,7 @@
             txtAddress.Location = new Point(33, 653);
             txtAddress.Name = "txtAddress";
             txtAddress.Size = new Size(240, 27);
-            txtAddress.TabIndex = 35;
+            txtAddress.TabIndex = 17;
             // 
             // label12
             // 
@@ -157,7 +157,7 @@
             cmbStatus.Location = new Point(342, 653);
             cmbStatus.Name = "cmbStatus";
             cmbStatus.Size = new Size(168, 28);
-            cmbStatus.TabIndex = 33;
+            cmbStatus.TabIndex = 18;
             // 
             // label11
             // 
@@ -174,7 +174,7 @@
             txtSalary.Location = new Point(33, 552);
             txtSalary.Name = "txtSalary";
             txtSalary.Size = new Size(240, 27);
-            txtSalary.TabIndex = 31;
+            txtSalary.TabIndex = 15;
             // 
             // label10
             // 
@@ -191,7 +191,7 @@
             txtNumberOfChildren.Location = new Point(33, 454);
             txtNumberOfChildren.Name = "txtNumberOfChildren";
             txtNumberOfChildren.Size = new Size(240, 27);
-            txtNumberOfChildren.TabIndex = 29;
+            txtNumberOfChildren.TabIndex = 13;
             // 
             // label9
             // 
@@ -209,7 +209,7 @@
             cmbDepartment.Location = new Point(342, 552);
             cmbDepartment.Name = "cmbDepartment";
             cmbDepartment.Size = new Size(168, 28);
-            cmbDepartment.TabIndex = 27;
+            cmbDepartment.TabIndex = 16;
             // 
             // label8
             // 
@@ -227,7 +227,7 @@
             cmbPosition.Location = new Point(342, 454);
             cmbPosition.Name = "cmbPosition";
             cmbPosition.Size = new Size(168, 28);
-            cmbPosition.TabIndex = 25;
+            cmbPosition.TabIndex = 14;
             // 
             // label7
             // 
@@ -244,7 +244,7 @@
             dtmHiredDate.Location = new Point(33, 351);
             dtmHiredDate.Name = "dtmHiredDate";
             dtmHiredDate.Size = new Size(240, 27);
-            dtmHiredDate.TabIndex = 23;
+            dtmHiredDate.TabIndex = 11;
             // 
             // label5
             // 
@@ -262,7 +262,7 @@
             cmbHaveSpouse.Location = new Point(342, 247);
             cmbHaveSpouse.Name = "cmbHaveSpouse";
             cmbHaveSpouse.Size = new Size(168, 28);
-            cmbHaveSpouse.TabIndex = 21;
+            cmbHaveSpouse.TabIndex = 10;
             cmbHaveSpouse.SelectedIndexChanged += cmbHaveSpouse_SelectedIndexChanged;
             // 
             // label1
@@ -280,7 +280,7 @@
             dtmDOB.Location = new Point(33, 248);
             dtmDOB.Name = "dtmDOB";
             dtmDOB.Size = new Size(240, 27);
-            dtmDOB.TabIndex = 19;
+            dtmDOB.TabIndex = 9;
             // 
             // cmbSex
             // 
@@ -288,7 +288,7 @@
             cmbSex.Location = new Point(342, 146);
             cmbSex.Name = "cmbSex";
             cmbSex.Size = new Size(168, 28);
-            cmbSex.TabIndex = 18;
+            cmbSex.TabIndex = 8;
             // 
             // label4
             // 
@@ -383,7 +383,7 @@
             Controls.Add(pnlFooter);
             FormBorderStyle = FormBorderStyle.None;
             Name = "FrmEmployeeAddEdit";
-            StartPosition = FormStartPosition.CenterParent;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FrmEmployeeAddEdit";
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();
