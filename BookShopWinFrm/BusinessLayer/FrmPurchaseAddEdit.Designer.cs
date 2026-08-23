@@ -330,9 +330,9 @@
             lblTitle.Font = new Font("Kh Pen Wappathor", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTitle.Location = new Point(32, 9);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(190, 62);
+            lblTitle.Size = new Size(280, 62);
             lblTitle.TabIndex = 0;
-            lblTitle.Text = "New Sale";
+            lblTitle.Text = "New Purchase";
             // 
             // panel2
             // 

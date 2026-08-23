@@ -1,6 +1,6 @@
 ﻿namespace BookShopWinFrm.BusinessLayer
 {
-    partial class FrmPurchase
+    partial class FrmInventoryAdjustment
     {
         /// <summary>
         /// Required designer variable.
@@ -28,47 +28,46 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dgPurchases = new DataGridView();
+            dgInventoryAdjDetail = new DataGridView();
             label1 = new Label();
             pnlToolbar = new Panel();
             label2 = new Label();
             txtSearch = new TextBox();
-            btnCancel = new Button();
             btnEdit = new Button();
             btnAdd = new Button();
             pnlHeader = new Panel();
-            ((System.ComponentModel.ISupportInitialize)dgPurchases).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgInventoryAdjDetail).BeginInit();
             pnlToolbar.SuspendLayout();
             pnlHeader.SuspendLayout();
             SuspendLayout();
             // 
-            // dgPurchases
+            // dgInventoryAdjDetail
             // 
-            dgPurchases.AllowUserToAddRows = false;
-            dgPurchases.AllowUserToDeleteRows = false;
-            dgPurchases.AllowUserToResizeColumns = false;
-            dgPurchases.AllowUserToResizeRows = false;
-            dgPurchases.BackgroundColor = Color.White;
-            dgPurchases.BorderStyle = BorderStyle.None;
-            dgPurchases.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgPurchases.ColumnHeadersHeight = 40;
-            dgPurchases.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dgPurchases.Dock = DockStyle.Fill;
-            dgPurchases.Location = new Point(0, 159);
-            dgPurchases.MultiSelect = false;
-            dgPurchases.Name = "dgPurchases";
-            dgPurchases.ReadOnly = true;
-            dgPurchases.RowHeadersVisible = false;
-            dgPurchases.RowHeadersWidth = 50;
-            dgPurchases.RowTemplate.DefaultCellStyle.ForeColor = Color.Black;
-            dgPurchases.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.Silver;
-            dgPurchases.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.Black;
-            dgPurchases.RowTemplate.Height = 30;
-            dgPurchases.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgPurchases.Size = new Size(1259, 508);
-            dgPurchases.TabIndex = 10;
-            dgPurchases.CellPainting += dgPurchases_CellPainting;
-            dgPurchases.RowPostPaint += dgPurchases_RowPostPaint;
+            dgInventoryAdjDetail.AllowUserToAddRows = false;
+            dgInventoryAdjDetail.AllowUserToDeleteRows = false;
+            dgInventoryAdjDetail.AllowUserToResizeColumns = false;
+            dgInventoryAdjDetail.AllowUserToResizeRows = false;
+            dgInventoryAdjDetail.BackgroundColor = Color.White;
+            dgInventoryAdjDetail.BorderStyle = BorderStyle.None;
+            dgInventoryAdjDetail.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgInventoryAdjDetail.ColumnHeadersHeight = 40;
+            dgInventoryAdjDetail.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgInventoryAdjDetail.Dock = DockStyle.Fill;
+            dgInventoryAdjDetail.Location = new Point(0, 159);
+            dgInventoryAdjDetail.MultiSelect = false;
+            dgInventoryAdjDetail.Name = "dgInventoryAdjDetail";
+            dgInventoryAdjDetail.ReadOnly = true;
+            dgInventoryAdjDetail.RowHeadersVisible = false;
+            dgInventoryAdjDetail.RowHeadersWidth = 50;
+            dgInventoryAdjDetail.RowTemplate.DefaultCellStyle.ForeColor = Color.Black;
+            dgInventoryAdjDetail.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.Silver;
+            dgInventoryAdjDetail.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.Black;
+            dgInventoryAdjDetail.RowTemplate.Height = 30;
+            dgInventoryAdjDetail.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgInventoryAdjDetail.Size = new Size(923, 698);
+            dgInventoryAdjDetail.TabIndex = 13;
+            dgInventoryAdjDetail.CellPainting += dgPurchases_CellPainting;
+            dgInventoryAdjDetail.RowPostPaint += dgPurchases_RowPostPaint;
             // 
             // label1
             // 
@@ -76,9 +75,9 @@
             label1.Font = new Font("Kh Pen Wappathor", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.Location = new Point(3, 9);
             label1.Name = "label1";
-            label1.Size = new Size(267, 62);
+            label1.Size = new Size(475, 62);
             label1.TabIndex = 0;
-            label1.Text = "Purchase List";
+            label1.Text = "Inventory Adjustment List";
             // 
             // pnlToolbar
             // 
@@ -86,20 +85,19 @@
             pnlToolbar.BorderStyle = BorderStyle.Fixed3D;
             pnlToolbar.Controls.Add(label2);
             pnlToolbar.Controls.Add(txtSearch);
-            pnlToolbar.Controls.Add(btnCancel);
             pnlToolbar.Controls.Add(btnEdit);
             pnlToolbar.Controls.Add(btnAdd);
             pnlToolbar.Dock = DockStyle.Top;
             pnlToolbar.Location = new Point(0, 80);
             pnlToolbar.Name = "pnlToolbar";
-            pnlToolbar.Size = new Size(1259, 79);
-            pnlToolbar.TabIndex = 9;
+            pnlToolbar.Size = new Size(923, 79);
+            pnlToolbar.TabIndex = 12;
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Kh Pen Wappathor", 10F);
-            label2.Location = new Point(630, 10);
+            label2.Location = new Point(569, 11);
             label2.Name = "label2";
             label2.Size = new Size(184, 31);
             label2.TabIndex = 4;
@@ -107,27 +105,11 @@
             // 
             // txtSearch
             // 
-            txtSearch.Location = new Point(605, 44);
+            txtSearch.Location = new Point(544, 45);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(242, 27);
             txtSearch.TabIndex = 3;
             txtSearch.TextChanged += txtSearch_TextChanged;
-            // 
-            // btnCancel
-            // 
-            btnCancel.BackColor = Color.FromArgb(220, 53, 69);
-            btnCancel.FlatAppearance.BorderColor = Color.White;
-            btnCancel.FlatAppearance.BorderSize = 0;
-            btnCancel.FlatStyle = FlatStyle.Flat;
-            btnCancel.Font = new Font("Kh Pen Wappathor", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCancel.ForeColor = Color.White;
-            btnCancel.Location = new Point(323, 19);
-            btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(232, 38);
-            btnCancel.TabIndex = 2;
-            btnCancel.Text = "Cancel Purchase";
-            btnCancel.UseVisualStyleBackColor = false;
-            btnCancel.Click += btnCancel_Click;
             // 
             // btnEdit
             // 
@@ -168,22 +150,22 @@
             pnlHeader.Dock = DockStyle.Top;
             pnlHeader.Location = new Point(0, 0);
             pnlHeader.Name = "pnlHeader";
-            pnlHeader.Size = new Size(1259, 80);
-            pnlHeader.TabIndex = 8;
+            pnlHeader.Size = new Size(923, 80);
+            pnlHeader.TabIndex = 11;
             // 
-            // FrmPurchase
+            // FrmInventoryAdjustment
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1259, 667);
-            Controls.Add(dgPurchases);
+            ClientSize = new Size(923, 857);
+            Controls.Add(dgInventoryAdjDetail);
             Controls.Add(pnlToolbar);
             Controls.Add(pnlHeader);
-            Name = "FrmPurchase";
-            Text = "FrmPurchase";
+            Name = "FrmInventoryAdjustment";
+            Text = "FrmInventoryAdjustment";
             WindowState = FormWindowState.Maximized;
-            Load += FrmPurchase_Load;
-            ((System.ComponentModel.ISupportInitialize)dgPurchases).EndInit();
+            Load += FrmInventoryAdjustment_Load;
+            ((System.ComponentModel.ISupportInitialize)dgInventoryAdjDetail).EndInit();
             pnlToolbar.ResumeLayout(false);
             pnlToolbar.PerformLayout();
             pnlHeader.ResumeLayout(false);
@@ -193,12 +175,11 @@
 
         #endregion
 
-        private DataGridView dgPurchases;
+        private DataGridView dgInventoryAdjDetail;
         private Label label1;
         private Panel pnlToolbar;
         private Label label2;
         private TextBox txtSearch;
-        private Button btnCancel;
         private Button btnEdit;
         private Button btnAdd;
         private Panel pnlHeader;

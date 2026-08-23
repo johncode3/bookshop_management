@@ -1,3 +1,4 @@
+-- StoreProcedure
 -- 1. PurchaseGet (Fetches all purchases with Vendor and Employee joins)
 Create Or Replace Procedure PurchaseGet (
     P_PurchaseId Purchase.PurchaseId%Type Default 0
