@@ -108,6 +108,18 @@ Begin
   Commit; 
 End;
 /
+
+-- 3. InvAdjDetailDelete
+Create Or Replace Procedure InvAdjDetailDelete ( 
+  P_InvAdjId InventoryAdjustmentDetail.InventoryAdjustmentId%Type 
+) 
+As 
+Begin 
+  Delete From InventoryAdjustmentDetail Where InventoryAdjustmentId = P_InvAdjId;
+  Commit; 
+End;
+/
+
 -- Trigger
 Create Or Replace Trigger trgInvAdjInsert 
     After Insert On InventoryAdjustmentDetail

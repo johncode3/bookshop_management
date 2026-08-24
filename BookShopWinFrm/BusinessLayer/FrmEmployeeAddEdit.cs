@@ -113,15 +113,12 @@ namespace BookShopWinFrm.BusinessLayer
         }
         private bool DoValidation()
         {
-            // 1. Name Check
             if (string.IsNullOrWhiteSpace(txtEmployeeName.Text))
             {
                 MessageBox.Show("Please enter employee name.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtEmployeeName.Focus();
                 return false;
             }
-
-            // 2. Dropdown selections check
             if (cmbSex.SelectedIndex == -1)
             {
                 MessageBox.Show("Please select gender.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -152,8 +149,6 @@ namespace BookShopWinFrm.BusinessLayer
                 cmbHaveSpouse.Focus();
                 return false;
             }
-
-            // 3. Number format checks (Salary & Children)
             if (!decimal.TryParse(txtSalary.Text.Trim(), out decimal salary) || salary < 0)
             {
                 MessageBox.Show("Please enter a valid salary amount.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -169,8 +164,6 @@ namespace BookShopWinFrm.BusinessLayer
                 txtNumberOfChildren.SelectAll();
                 return false;
             }
-
-            // 4. Date logic checks (DOB cannot be in the future, Hired date logic)
             if (dtmDOB.Value.Date > DateTime.Now.Date)
             {
                 MessageBox.Show("Date of Birth cannot be in the future.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

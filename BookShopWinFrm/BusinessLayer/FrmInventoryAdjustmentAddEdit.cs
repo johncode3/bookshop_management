@@ -236,7 +236,6 @@ namespace BookShopWinFrm.BusinessLayer
             {
                 _isUpdatingCells = true;
 
-                // 1. If user changed the Item dropdown
                 if (columnName == "ItemId")
                 {
                     var cellVal = row.Cells["ItemId"].Value;
@@ -258,15 +257,12 @@ namespace BookShopWinFrm.BusinessLayer
                     }
                     else
                     {
-                        // Clear row if user unselected item
                         row.Cells["Description"].Value = "";
                         row.Cells["UnitPrice"].Value = 0m;
                         row.Cells["Quantity"].Value = 0m;
                         row.Cells["TotalAmount"].Value = 0m;
                     }
                 }
-
-                // 2. ALWAYS calculate row math if ItemId, Quantity, or UnitPrice changed
                 CalculateRow(row);
             }
             finally
@@ -279,7 +275,6 @@ namespace BookShopWinFrm.BusinessLayer
         {
             try
             {
-                // Ensure you use your exact grid column names here ("Quantity", "UnitPrice", "TotalAmount")
                 decimal qty = Convert.ToDecimal(row.Cells["Quantity"].Value ?? 0);
                 decimal unitPrice = Convert.ToDecimal(row.Cells["UnitPrice"].Value ?? 0);
                 decimal totalAmount = qty * unitPrice;

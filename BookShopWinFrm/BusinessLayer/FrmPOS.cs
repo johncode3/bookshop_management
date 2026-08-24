@@ -1,4 +1,5 @@
-﻿using BookShopWinFrm.DataLayer.Model;
+﻿using BookShopWinFrm.Controls;
+using BookShopWinFrm.DataLayer.Model;
 using BookShopWinFrm.DataLayer.Services;
 using System;
 using System.Collections.Generic;
@@ -6,23 +7,25 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BookShopWinFrm.BusinessLayer
 {
-    public partial class FrmSaleAddEdit : Form
+    public partial class FrmPOS : Form
     {
         Sale sale;
         DataTable dtSaleDetail;
         bool newsale;
-
-        public FrmSaleAddEdit(Sale sale)
+        DataTable dtItem;
+        public FrmPOS()
         {
             InitializeComponent();
             dgSaleDetail.CellValueChanged += dgSaleDetail_CellValueChanged;
             dgSaleDetail.CurrentCellDirtyStateChanged += dgSaleDetail_CurrentCellDirtyStateChanged;
+            dgSaleDetail.AllowUserToAddRows = false;
 
             LoadCustomer();
             LoadEmployee();
@@ -112,17 +115,91 @@ namespace BookShopWinFrm.BusinessLayer
         }
         void LoadItem()
         {
-            DataTable dtItem = ItemService.GetAll();
-            DataRow emptyRow = dtItem.NewRow();
-            emptyRow["ItemID"] = DBNull.Value;
-            emptyRow["ItemName"] = "-- Select Item --";
-            dtItem.Rows.InsertAt(emptyRow, 0);
+            dtItem = ItemService.GetAll();
 
             DataGridViewComboBoxColumn cmbItem = dgSaleDetail.Columns["ItemID"] as DataGridViewComboBoxColumn;
-            cmbItem.DataSource = dtItem;
-            cmbItem.DisplayMember = "ItemName";
-            cmbItem.ValueMember = "ItemID";
-            cmbItem.DataPropertyName = "ItemId";
+            if (cmbItem != null)
+            {
+                cmbItem.DataSource = dtItem;
+                cmbItem.DisplayMember = "ItemName";
+                cmbItem.ValueMember = "ItemID";
+                cmbItem.DataPropertyName = "ItemId";
+            }
+
+            flopnlItemList.Controls.Clear();
+            foreach (DataRow dr in dtItem.Rows)
+            {
+                if (dr["ItemId"] == DBNull.Value || dr["ItemId"] == null)
+                    continue;
+
+                Item item = ItemService.Get(Convert.ToInt32(dr["ItemId"]));
+                ItemButton itemButton = new ItemButton(item);
+                itemButton.ItemClick += new EventHandler(ItemButton_Click);
+                flopnlItemList.Controls.Add(itemButton);
+            }
+            if (cmbCategory.Items.Count == 0)
+            {
+                cmbCategory.Items.Add("All");
+                cmbCategory.Items.Add("Fiction");
+                cmbCategory.Items.Add("Non-Fiction");
+                cmbCategory.Items.Add("Science & Technology");
+                cmbCategory.Items.Add("Business & Economics");
+                cmbCategory.Items.Add("Fantasy & Sci-Fi");
+                cmbCategory.Items.Add("Self-Help");
+                cmbCategory.Items.Add("Educational");
+                cmbCategory.Items.Add("Children & YA");
+                cmbCategory.SelectedIndex = 0;
+            }
+
+            FilterItems();
+        }
+        private void ItemButton_Click(object sender, EventArgs e)
+        {
+            ItemButton itemBtn = (ItemButton)sender;
+
+            for (int i = dtSaleDetail.Rows.Count - 1; i >= 0; i--)
+            {
+                DataRow dr = dtSaleDetail.Rows[i];
+                if (dr.RowState != DataRowState.Deleted)
+                {
+                    if (dr["ItemId"] == DBNull.Value || dr["ItemId"] == null || string.IsNullOrWhiteSpace(dr["ItemId"].ToString()))
+                    {
+                        dr.Delete();
+                    }
+                }
+            }
+
+            bool isExisted = false;
+            foreach (DataRow data in dtSaleDetail.Rows)
+            {
+                if (data.RowState == DataRowState.Deleted) continue;
+
+                if (data["ItemId"].ToString() == itemBtn.Data.ItemId.ToString())
+                {
+                    decimal currentQty = Convert.ToDecimal(data["Quantity"] ?? 0);
+                    decimal unitPrice = Convert.ToDecimal(data["UnitPriceAtSale"] ?? itemBtn.Data.SalePrice);
+                    decimal discount = data.Table.Columns.Contains("DiscountAmount") && data["DiscountAmount"] != DBNull.Value ? Convert.ToDecimal(data["DiscountAmount"]) : 0m;
+
+                    decimal newQty = currentQty + 1;
+                    data["Quantity"] = newQty;
+                    data["Price"] = (newQty * unitPrice) - discount;
+                    isExisted = true;
+                    break;
+                }
+            }
+
+            if (!isExisted)
+            {
+                DataRow newRow = dtSaleDetail.NewRow();
+                newRow["ItemId"] = itemBtn.Data.ItemId;
+                newRow["Description"] = itemBtn.Data.ItemDescription ?? "";
+                newRow["Quantity"] = 1m;
+                newRow["UnitPriceAtSale"] = itemBtn.Data.SalePrice;
+                newRow["DiscountAmount"] = 0m;
+                newRow["Price"] = itemBtn.Data.SalePrice;
+
+                dtSaleDetail.Rows.Add(newRow);
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -179,6 +256,7 @@ namespace BookShopWinFrm.BusinessLayer
                     else
                     {
                         MessageBox.Show("Sale added successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ResetForm();
                     }
                 }
             }
@@ -231,12 +309,13 @@ namespace BookShopWinFrm.BusinessLayer
                     }
                     else
                     {
+                        SaleService.Update(sale);
                         MessageBox.Show("Sale updated successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.DialogResult = DialogResult.OK;
+                        this.Close();
                     }
                 }
             }
-            this.DialogResult = DialogResult.OK;
-            this.Close();
         }
         bool DoValidation()
         {
@@ -296,6 +375,29 @@ namespace BookShopWinFrm.BusinessLayer
             }
 
             return true;
+        }
+        private void ResetForm()
+        {
+            newsale = true;
+            lblTitle.Text = "New Sale";
+            this.Text = "List : New Sale";
+
+            sale = new Sale();
+            cmbCustomer.SelectedIndex = -1;
+            cmbEmployee.SelectedIndex = -1;
+            cmbStatus.SelectedItem = "Completed";
+            txtNote.Text = "";
+            txtRefNumber.Text = "INV-" + DateTime.Now.ToString("yyyyMMdd-HHmm");
+
+            dtSaleDetail = SaleService.GetDetail(0);
+            dtSaleDetail.Rows.Clear();
+
+            DataRow dr = dtSaleDetail.NewRow();
+            dtSaleDetail.Rows.Add(dr);
+
+            dgSaleDetail.DataSource = dtSaleDetail;
+
+            UpdateTotalPrice();
         }
 
         private void dgSaleDetail_CurrentCellDirtyStateChanged(object sender, EventArgs e)
@@ -485,24 +587,65 @@ namespace BookShopWinFrm.BusinessLayer
 
             UpdateTotalPrice();
         }
-
-        private void btnCustomerAdd_Click(object sender, EventArgs e)
+        private void FilterItems()
         {
-            FrmCustomerAddEdit frmCustomerAddEdit = new FrmCustomerAddEdit(null);
-
-            if (frmCustomerAddEdit.ShowDialog() == DialogResult.OK)
+            if (dtItem == null)
             {
-                LoadCustomer();
+                MessageBox.Show("Debug: dtItem is NULL!");
+                return;
+            }
+            if (dtItem.Rows.Count == 0)
+            {
+                MessageBox.Show("Debug: dtItem has 0 rows!");
+                return;
+            }
+
+            string searchText = txtSearch.Text?.Trim().ToLower() ?? "";
+            string selectedCategory = cmbCategory.SelectedItem?.ToString() ?? "All";
+
+            var query = dtItem.AsEnumerable().Where(r =>
+                Convert.ToInt32(r["IsDeleted"] ?? 0) == 0
+            );
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                query = query.Where(r =>
+                    (r["ItemName"] != DBNull.Value && r["ItemName"].ToString().ToLower().Contains(searchText)) ||
+                    (r["Author"] != DBNull.Value && r["Author"].ToString().ToLower().Contains(searchText))
+                );
+            }
+
+            if (selectedCategory != "All" && !string.IsNullOrEmpty(selectedCategory))
+            {
+                query = query.Where(r =>
+                    r["Category"] != DBNull.Value && r["Category"].ToString() == selectedCategory
+                );
+            }
+
+            DataRow[] filteredRows = query.ToArray();
+
+            flopnlItemList.Controls.Clear();
+            foreach (DataRow dr in filteredRows)
+            {
+                if (dr["ItemId"] == DBNull.Value || dr["ItemId"] == null)
+                    continue;
+
+                Item item = ItemService.Get(Convert.ToInt32(dr["ItemId"]));
+                ItemButton itemButton = new ItemButton(item);
+                itemButton.ItemClick += new EventHandler(ItemButton_Click);
+                flopnlItemList.Controls.Add(itemButton);
             }
         }
 
-        private void btnEmployeeAdd_Click(object sender, EventArgs e)
+        private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            FrmEmployeeAddEdit frmEmployeeAddEdit = new FrmEmployeeAddEdit(null);
-            if (frmEmployeeAddEdit.ShowDialog() == DialogResult.OK)
-            {
-                LoadEmployee();
-            }
+            FilterItems();
+        }
+
+        private void cmbCategory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FilterItems();
         }
     }
 }
+ 

@@ -193,10 +193,7 @@ namespace BookShopWinFrm.BusinessLayer
         }
         private void dgEmployees_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            // Ensure column index is valid
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
-
-            // Format HaveSpouse column to display Yes / No
             if (dgEmployees.Columns[e.ColumnIndex].Name == "HaveSpouse" && e.Value != null)
             {
                 if (int.TryParse(e.Value.ToString(), out int val))
