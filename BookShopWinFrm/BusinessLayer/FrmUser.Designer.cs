@@ -177,6 +177,7 @@
             dgUsers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgUsers.Size = new Size(639, 600);
             dgUsers.TabIndex = 10;
+            dgUsers.CellPainting += dgUsers_CellPainting;
             dgUsers.RowPostPaint += dgUsers_RowPostPaint;
             dgUsers.SelectionChanged += dgUsers_SelectionChanged;
             // 

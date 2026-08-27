@@ -27,6 +27,7 @@ namespace BookShopWinFrm.BusinessLayer
             InitializePermissionCheckboxes();
             LoadData();
         }
+        private bool _isLoading = true;
         private void InitializePermissionCheckboxes()
         {
             flowLayoutPanelPermissions.Controls.Clear();
@@ -56,7 +57,7 @@ namespace BookShopWinFrm.BusinessLayer
 
                 Label lblTitle = new Label();
                 lblTitle.Text = displayTitle;
-                lblTitle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+                lblTitle.Font = new Font("Kh Pen", 10F, FontStyle.Bold);
                 lblTitle.Location = new Point(5, 2);
                 lblTitle.AutoSize = true;
                 pnlSection.Controls.Add(lblTitle);
@@ -71,7 +72,7 @@ namespace BookShopWinFrm.BusinessLayer
                     chk.Text = action;
                     chk.Location = new Point(xPos, yPos);
                     chk.Width = 85;
-                    chk.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
+                    chk.Font = new Font("Kh Pen", 9F, FontStyle.Regular);
                     pnlSection.Controls.Add(chk);
 
                     xPos += 90;
@@ -82,6 +83,7 @@ namespace BookShopWinFrm.BusinessLayer
         // User Data
         private void LoadData()
         {
+            _isLoading = true;
             dtUser = AppUserService.GetAll();
             dgUsers.DataSource = dtUser;
             dgUsers.RowTemplate.Height = 70;
@@ -126,6 +128,8 @@ namespace BookShopWinFrm.BusinessLayer
                 dgUsers.Columns["UserName"].DisplayIndex = 2;
                 dgUsers.Columns["UserName"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
+            _isLoading = false;
+            SetAllCheckboxes(flowLayoutPanelPermissions, false);
         }
 
         private void dgUsers_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
@@ -185,7 +189,7 @@ namespace BookShopWinFrm.BusinessLayer
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            FrmUserAddEdit frmAddEdit = new FrmUserAddEdit();
+            FrmUserAddEdit frmAddEdit = new FrmUserAddEdit(null);
             if (frmAddEdit.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -201,7 +205,7 @@ namespace BookShopWinFrm.BusinessLayer
             }
             int userId = Convert.ToInt32(dgUsers.SelectedRows[0].Cells["AppUserId"].Value);
             AppUser user = AppUserService.Get(userId);
-            FrmUserAddEdit frmUserAddEdit = new FrmUserAddEdit();
+            FrmUserAddEdit frmUserAddEdit = new FrmUserAddEdit(user);
             if (frmUserAddEdit.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -233,6 +237,8 @@ namespace BookShopWinFrm.BusinessLayer
 
         private void LoadUserPermissions()
         {
+            if (_isLoading)
+                return;
             if (dgUsers.SelectedRows.Count > 0)
             {
                 int AppUserId = Convert.ToInt32(dgUsers.SelectedRows[0].Cells["AppUserId"].Value.ToString());
@@ -266,6 +272,11 @@ namespace BookShopWinFrm.BusinessLayer
 
         private void btnApplyPermissions_Click(object sender, EventArgs e)
         {
+            if (dgUsers.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a user to apply permissions.", "Apply Permissions", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
             DialogResult confirm = MessageBox.Show("Are you sure you want to apply the selected permissions?", "Apply Permissions", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (confirm == DialogResult.Yes)
             {

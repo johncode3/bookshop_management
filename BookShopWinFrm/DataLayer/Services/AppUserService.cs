@@ -53,9 +53,12 @@ namespace BookShopWinFrm.DataLayer.Services
             command.Parameters.Add("P_EmployeeId", appuser.EmployeeId);
             command.Parameters.Add("P_UserName", appuser.UserName);
             command.Parameters.Add("P_Password", appuser.Password);
-            command.Parameters.Add("P_Avatar", appuser.Avatar ?? (object)DBNull.Value);
+            OracleParameter thumbParam = new OracleParameter("P_Avatar", OracleDbType.Blob);
+            thumbParam.Value = appuser.Avatar ?? (object)DBNull.Value;
+            command.Parameters.Add(thumbParam);
             command.Parameters.Add("P_IsActive", appuser.IsActive ? 1 : 0);
             command.Parameters.Add("P_IsAdmin", appuser.IsAdmin ? 1 : 0);
+
 
             OracleParameter outId = new OracleParameter("P_AppUserId", OracleDbType.Int32);
             outId.Direction = ParameterDirection.Output;
@@ -78,9 +81,13 @@ namespace BookShopWinFrm.DataLayer.Services
             command.Parameters.Add("P_EmployeeId", appuser.EmployeeId);
             command.Parameters.Add("P_UserName", appuser.UserName);
             command.Parameters.Add("P_Password", appuser.Password);
-            command.Parameters.Add("P_Avatar", appuser.Avatar ?? (object)DBNull.Value);
+            OracleParameter thumbParam = new OracleParameter("P_Avatar", OracleDbType.Blob);
+            thumbParam.Value = appuser.Avatar ?? (object)DBNull.Value;
+            command.Parameters.Add(thumbParam);
             command.Parameters.Add("P_IsActive", appuser.IsActive ? 1 : 0);
             command.Parameters.Add("P_IsAdmin", appuser.IsAdmin ? 1 : 0);
+
+
             command.ExecuteNonQuery();
         }
 
@@ -109,7 +116,6 @@ namespace BookShopWinFrm.DataLayer.Services
                 appuser.UserName = reader["UserName"]?.ToString() ?? "";
                 appuser.Password = reader["Password"]?.ToString() ?? "";
                 appuser.Avatar = reader["Avatar"] != DBNull.Value ? (byte[])reader["Avatar"] : null;
-
                 appuser.IsActive = Convert.ToInt32(reader["IsActive"]) == 1;
                 appuser.IsAdmin = Convert.ToInt32(reader["IsAdmin"]) == 1;
             }
