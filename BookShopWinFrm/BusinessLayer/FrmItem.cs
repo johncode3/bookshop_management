@@ -85,6 +85,7 @@ namespace BookShopWinFrm.BusinessLayer
 
             dgItems.Columns["Thumbnail"].SortMode = DataGridViewColumnSortMode.NotSortable;
             dgItems.Columns["Thumbnail"].DisplayIndex = 7;
+
             dgItems.Columns["ItemDescription"].HeaderText = "Description";
             dgItems.Columns["ItemDescription"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dgItems.Columns["ItemDescription"].SortMode = DataGridViewColumnSortMode.NotSortable;

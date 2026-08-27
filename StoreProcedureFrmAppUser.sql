@@ -114,8 +114,8 @@ Create Or Replace Procedure AppUserPermissionAdd
 )
 As
 Begin
- Insert Into AppUserPermission(AppUserId, PermissionName, IsAllowed) 
- Values(P_AppUserId, P_PermissionName, 1);
+ Insert Into AppUserPermission(AppUserId, PermissionName) 
+ Values(P_AppUserId, P_PermissionName);
  Commit;
 End;
 /

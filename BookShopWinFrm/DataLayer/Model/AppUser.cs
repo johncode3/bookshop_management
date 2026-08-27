@@ -14,6 +14,6 @@ namespace BookShopWinFrm.DataLayer.Model
         public string Password { get; set; }
         public byte[] Avatar { get; set; }
         public bool IsActive { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

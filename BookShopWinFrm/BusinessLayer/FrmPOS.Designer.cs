@@ -157,9 +157,9 @@
             pnlSale.Controls.Add(panel3);
             pnlSale.Controls.Add(panel4);
             pnlSale.Dock = DockStyle.Right;
-            pnlSale.Location = new Point(586, 159);
+            pnlSale.Location = new Point(519, 159);
             pnlSale.Name = "pnlSale";
-            pnlSale.Size = new Size(797, 537);
+            pnlSale.Size = new Size(864, 537);
             pnlSale.TabIndex = 10;
             // 
             // panel1
@@ -169,7 +169,7 @@
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 301);
             panel1.Name = "panel1";
-            panel1.Size = new Size(797, 171);
+            panel1.Size = new Size(864, 171);
             panel1.TabIndex = 18;
             // 
             // dgSaleDetail
@@ -190,7 +190,7 @@
             dgSaleDetail.RowHeadersWidth = 60;
             dgSaleDetail.RowTemplate.Height = 30;
             dgSaleDetail.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            dgSaleDetail.Size = new Size(797, 171);
+            dgSaleDetail.Size = new Size(864, 171);
             dgSaleDetail.TabIndex = 0;
             dgSaleDetail.CellValueChanged += dgSaleDetail_CellValueChanged;
             dgSaleDetail.CurrentCellDirtyStateChanged += dgSaleDetail_CurrentCellDirtyStateChanged;
@@ -280,7 +280,7 @@
             pnlFooter.Dock = DockStyle.Bottom;
             pnlFooter.Location = new Point(0, 472);
             pnlFooter.Name = "pnlFooter";
-            pnlFooter.Size = new Size(797, 65);
+            pnlFooter.Size = new Size(864, 65);
             pnlFooter.TabIndex = 16;
             // 
             // label4
@@ -355,7 +355,7 @@
             panel3.Dock = DockStyle.Top;
             panel3.Location = new Point(0, 80);
             panel3.Name = "panel3";
-            panel3.Size = new Size(797, 221);
+            panel3.Size = new Size(864, 221);
             panel3.TabIndex = 17;
             // 
             // cmbStatus
@@ -474,7 +474,7 @@
             panel4.Dock = DockStyle.Top;
             panel4.Location = new Point(0, 0);
             panel4.Name = "panel4";
-            panel4.Size = new Size(797, 80);
+            panel4.Size = new Size(864, 80);
             panel4.TabIndex = 15;
             // 
             // lblTitle
@@ -491,7 +491,7 @@
             // 
             panel2.BackColor = Color.Black;
             panel2.Dock = DockStyle.Right;
-            panel2.Location = new Point(583, 159);
+            panel2.Location = new Point(516, 159);
             panel2.Name = "panel2";
             panel2.Size = new Size(3, 537);
             panel2.TabIndex = 11;
@@ -502,7 +502,7 @@
             flopnlItemList.Dock = DockStyle.Fill;
             flopnlItemList.Location = new Point(0, 159);
             flopnlItemList.Name = "flopnlItemList";
-            flopnlItemList.Size = new Size(583, 537);
+            flopnlItemList.Size = new Size(516, 537);
             flopnlItemList.TabIndex = 12;
             // 
             // FrmPOS

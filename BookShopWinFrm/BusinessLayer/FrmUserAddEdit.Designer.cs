@@ -1,6 +1,6 @@
 ﻿namespace BookShopWinFrm.BusinessLayer
 {
-    partial class FrmVendorAddEdit
+    partial class FrmUserAddEdit
     {
         /// <summary>
         /// Required designer variable.
@@ -30,20 +30,20 @@
         {
             pnlHeader = new Panel();
             lblTitle = new Label();
+            txtAddress = new TextBox();
+            label7 = new Label();
             pnlMain = new Panel();
+            txtEmail = new TextBox();
+            label5 = new Label();
             txtPhone = new TextBox();
             label4 = new Label();
             txtCompanyName = new TextBox();
             label3 = new Label();
-            txtVendorName = new TextBox();
             label2 = new Label();
             btnCancel = new Button();
             btnSave = new Button();
             pnlFooter = new Panel();
-            label5 = new Label();
-            txtEmail = new TextBox();
-            label7 = new Label();
-            txtAddress = new TextBox();
+            cmbEmployee = new ComboBox();
             pnlHeader.SuspendLayout();
             pnlMain.SuspendLayout();
             pnlFooter.SuspendLayout();
@@ -56,8 +56,8 @@
             pnlHeader.Dock = DockStyle.Top;
             pnlHeader.Location = new Point(0, 0);
             pnlHeader.Name = "pnlHeader";
-            pnlHeader.Size = new Size(542, 80);
-            pnlHeader.TabIndex = 7;
+            pnlHeader.Size = new Size(559, 80);
+            pnlHeader.TabIndex = 10;
             // 
             // lblTitle
             // 
@@ -69,9 +69,27 @@
             lblTitle.TabIndex = 0;
             lblTitle.Text = "New Vendor";
             // 
+            // txtAddress
+            // 
+            txtAddress.Location = new Point(33, 350);
+            txtAddress.Name = "txtAddress";
+            txtAddress.Size = new Size(206, 27);
+            txtAddress.TabIndex = 17;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Kh Pen Wappathor", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label7.Location = new Point(33, 305);
+            label7.Name = "label7";
+            label7.Size = new Size(118, 42);
+            label7.TabIndex = 16;
+            label7.Text = "Address";
+            // 
             // pnlMain
             // 
             pnlMain.BackColor = SystemColors.ControlLight;
+            pnlMain.Controls.Add(cmbEmployee);
             pnlMain.Controls.Add(txtAddress);
             pnlMain.Controls.Add(label7);
             pnlMain.Controls.Add(txtEmail);
@@ -80,13 +98,29 @@
             pnlMain.Controls.Add(label4);
             pnlMain.Controls.Add(txtCompanyName);
             pnlMain.Controls.Add(label3);
-            pnlMain.Controls.Add(txtVendorName);
             pnlMain.Controls.Add(label2);
             pnlMain.Dock = DockStyle.Fill;
             pnlMain.Location = new Point(0, 0);
             pnlMain.Name = "pnlMain";
-            pnlMain.Size = new Size(542, 422);
-            pnlMain.TabIndex = 6;
+            pnlMain.Size = new Size(559, 539);
+            pnlMain.TabIndex = 9;
+            // 
+            // txtEmail
+            // 
+            txtEmail.Location = new Point(297, 258);
+            txtEmail.Name = "txtEmail";
+            txtEmail.Size = new Size(206, 27);
+            txtEmail.TabIndex = 13;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Kh Pen Wappathor", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.Location = new Point(297, 213);
+            label5.Name = "label5";
+            label5.Size = new Size(84, 42);
+            label5.TabIndex = 12;
+            label5.Text = "Email";
             // 
             // txtPhone
             // 
@@ -122,13 +156,6 @@
             label3.TabIndex = 8;
             label3.Text = "Company Name";
             // 
-            // txtVendorName
-            // 
-            txtVendorName.Location = new Point(33, 157);
-            txtVendorName.Name = "txtVendorName";
-            txtVendorName.Size = new Size(211, 27);
-            txtVendorName.TabIndex = 7;
-            // 
             // label2
             // 
             label2.AutoSize = true;
@@ -154,7 +181,6 @@
             btnCancel.TabIndex = 2;
             btnCancel.Text = "Cancle";
             btnCancel.UseVisualStyleBackColor = false;
-            btnCancel.Click += btnCancel_Click;
             // 
             // btnSave
             // 
@@ -171,7 +197,6 @@
             btnSave.TabIndex = 0;
             btnSave.Text = "Save";
             btnSave.UseVisualStyleBackColor = false;
-            btnSave.Click += btnSave_Click;
             // 
             // pnlFooter
             // 
@@ -180,57 +205,29 @@
             pnlFooter.Controls.Add(btnCancel);
             pnlFooter.Controls.Add(btnSave);
             pnlFooter.Dock = DockStyle.Bottom;
-            pnlFooter.Location = new Point(0, 422);
+            pnlFooter.Location = new Point(0, 539);
             pnlFooter.Name = "pnlFooter";
-            pnlFooter.Size = new Size(542, 65);
-            pnlFooter.TabIndex = 8;
+            pnlFooter.Size = new Size(559, 65);
+            pnlFooter.TabIndex = 11;
             // 
-            // label5
+            // cmbEmployee
             // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Kh Pen Wappathor", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(297, 213);
-            label5.Name = "label5";
-            label5.Size = new Size(84, 42);
-            label5.TabIndex = 12;
-            label5.Text = "Email";
+            cmbEmployee.FormattingEnabled = true;
+            cmbEmployee.Location = new Point(33, 157);
+            cmbEmployee.Name = "cmbEmployee";
+            cmbEmployee.Size = new Size(239, 28);
+            cmbEmployee.TabIndex = 27;
             // 
-            // txtEmail
-            // 
-            txtEmail.Location = new Point(297, 258);
-            txtEmail.Name = "txtEmail";
-            txtEmail.Size = new Size(206, 27);
-            txtEmail.TabIndex = 13;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Kh Pen Wappathor", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(33, 305);
-            label7.Name = "label7";
-            label7.Size = new Size(118, 42);
-            label7.TabIndex = 16;
-            label7.Text = "Address";
-            // 
-            // txtAddress
-            // 
-            txtAddress.Location = new Point(33, 350);
-            txtAddress.Name = "txtAddress";
-            txtAddress.Size = new Size(206, 27);
-            txtAddress.TabIndex = 17;
-            // 
-            // FrmVendorAddEdit
+            // FrmUserAddEdit
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(542, 487);
+            ClientSize = new Size(559, 604);
             Controls.Add(pnlHeader);
             Controls.Add(pnlMain);
             Controls.Add(pnlFooter);
-            FormBorderStyle = FormBorderStyle.None;
-            Name = "FrmVendorAddEdit";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "FrmVendorAddEdit";
+            Name = "FrmUserAddEdit";
+            Text = "FrmUserAddEdit";
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();
             pnlMain.ResumeLayout(false);
@@ -243,19 +240,19 @@
 
         private Panel pnlHeader;
         private Label lblTitle;
+        private TextBox txtAddress;
+        private Label label7;
         private Panel pnlMain;
+        private TextBox txtEmail;
+        private Label label5;
         private TextBox txtPhone;
         private Label label4;
         private TextBox txtCompanyName;
         private Label label3;
-        private TextBox txtVendorName;
         private Label label2;
         private Button btnCancel;
         private Button btnSave;
         private Panel pnlFooter;
-        private TextBox txtAddress;
-        private Label label7;
-        private TextBox txtEmail;
-        private Label label5;
+        private ComboBox cmbEmployee;
     }
 }
