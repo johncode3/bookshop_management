@@ -29,7 +29,7 @@ Create Or Replace Procedure EmployeeAdd (
     P_Position         Employee.Position%Type,
     P_Department       Employee.Department%Type,
     P_Salary           Employee.Salary%Type,
-	P_IsActive         Employee.IsActive%Type
+	P_IsActive         Employee.IsActive%Type,
     P_EmployeeId       OUT Employee.EmployeeId%Type
 ) 
 As
