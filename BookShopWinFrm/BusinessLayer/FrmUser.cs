@@ -17,6 +17,8 @@ namespace BookShopWinFrm.BusinessLayer
         DataTable dtUser;
         DataTable dtUserPermission;
 
+        public DataTable UserPermissions { get; set; }
+
         public FrmUser()
         {
             InitializeComponent();
@@ -26,6 +28,37 @@ namespace BookShopWinFrm.BusinessLayer
         {
             InitializePermissionCheckboxes();
             LoadData();
+            ApplyPermissions();
+        }
+
+        private void ApplyPermissions()
+        {
+            if (FrmMain.CurrentUser?.IsAdmin == true)
+            {
+                btnAdd.Visible = true;
+                btnEdit.Visible = true;
+                btnDelete.Visible = true;
+                return;
+            }
+
+            btnAdd.Visible = false;
+            btnEdit.Visible = false;
+            btnDelete.Visible = false;
+
+            if (this.UserPermissions == null || this.UserPermissions.Rows.Count == 0)
+                return;
+
+            foreach (DataRow row in this.UserPermissions.Rows)
+            {
+                string permName = row["PermissionName"].ToString();
+
+                if (permName == "UserCreate")
+                    btnAdd.Visible = true;
+                else if (permName == "UserModify")
+                    btnEdit.Visible = true;
+                else if (permName == "UserDelete")
+                    btnDelete.Visible = true;
+            }
         }
         private bool _isLoading = true;
         private void InitializePermissionCheckboxes()
@@ -38,6 +71,7 @@ namespace BookShopWinFrm.BusinessLayer
                 { "Sale Transaction", "Sale" },
                 { "Purchase Transaction", "Purchase" },
                 { "Item Management", "Item" },
+                { "Inventory Adjustment", "InventoryAdjustment" },
                 { "Employee Management", "Employee" },
                 { "Vendor Management", "Vendor" },
                 { "User Security", "User" }

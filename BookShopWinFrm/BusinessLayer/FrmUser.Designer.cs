@@ -108,6 +108,7 @@
             btnDelete.TabIndex = 2;
             btnDelete.Text = "Delete";
             btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Visible = false;
             btnDelete.Click += btnDelete_Click;
             // 
             // btnEdit
@@ -124,6 +125,7 @@
             btnEdit.TabIndex = 1;
             btnEdit.Text = "Edit";
             btnEdit.UseVisualStyleBackColor = false;
+            btnEdit.Visible = false;
             btnEdit.Click += btnEdit_Click;
             // 
             // btnAdd
@@ -140,6 +142,7 @@
             btnAdd.TabIndex = 0;
             btnAdd.Text = "Add";
             btnAdd.UseVisualStyleBackColor = false;
+            btnAdd.Visible = false;
             btnAdd.Click += btnAdd_Click;
             // 
             // pnlHeader

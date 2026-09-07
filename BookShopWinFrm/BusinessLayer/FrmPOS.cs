@@ -256,6 +256,7 @@ namespace BookShopWinFrm.BusinessLayer
                     else
                     {
                         MessageBox.Show("Sale added successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadItem();
                         ResetForm();
                     }
                 }
@@ -311,6 +312,7 @@ namespace BookShopWinFrm.BusinessLayer
                     {
                         SaleService.Update(sale);
                         MessageBox.Show("Sale updated successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadItem();
                         this.DialogResult = DialogResult.OK;
                         this.Close();
                     }

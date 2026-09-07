@@ -15,6 +15,9 @@ namespace BookShopWinFrm.BusinessLayer
     public partial class FrmEmployee : Form
     {
         DataTable dtEmployee;
+
+        public DataTable UserPermissions { get; set; }
+
         public FrmEmployee()
         {
             InitializeComponent();
@@ -23,6 +26,37 @@ namespace BookShopWinFrm.BusinessLayer
         private void FrmEmployee_Load(object sender, EventArgs e)
         {
             LoadData();
+            ApplyPermissions();
+        }
+
+        private void ApplyPermissions()
+        {
+            if (FrmMain.CurrentUser?.IsAdmin == true)
+            {
+                btnAdd.Visible = true;
+                btnEdit.Visible = true;
+                btnDelete.Visible = true;
+                return;
+            }
+
+            btnAdd.Visible = false;
+            btnEdit.Visible = false;
+            btnDelete.Visible = false;
+
+            if (this.UserPermissions == null || this.UserPermissions.Rows.Count == 0)
+                return;
+
+            foreach (DataRow row in this.UserPermissions.Rows)
+            {
+                string permName = row["PermissionName"].ToString();
+
+                if (permName == "EmployeeCreate")
+                    btnAdd.Visible = true;
+                else if (permName == "EmployeeModify")
+                    btnEdit.Visible = true;
+                else if (permName == "EmployeeDelete")
+                    btnDelete.Visible = true;
+            }
         }
         private void LoadData()
         {

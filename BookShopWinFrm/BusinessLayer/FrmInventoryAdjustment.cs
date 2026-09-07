@@ -15,6 +15,9 @@ namespace BookShopWinFrm.BusinessLayer
     public partial class FrmInventoryAdjustment : Form
     {
         DataTable dtInventoryAdjustment;
+
+        public DataTable UserPermissions { get; set; }
+
         public FrmInventoryAdjustment()
         {
             InitializeComponent();
@@ -23,6 +26,33 @@ namespace BookShopWinFrm.BusinessLayer
         private void FrmInventoryAdjustment_Load(object sender, EventArgs e)
         {
             LoadData();
+            ApplyPermissions();
+        }
+
+        private void ApplyPermissions()
+        {
+            if (FrmMain.CurrentUser?.IsAdmin == true)
+            {
+                btnAdd.Visible = true;
+                btnEdit.Visible = true;
+                return;
+            }
+
+            btnAdd.Visible = false;
+            btnEdit.Visible = false;
+
+            if (this.UserPermissions == null || this.UserPermissions.Rows.Count == 0)
+                return;
+
+            foreach (DataRow row in this.UserPermissions.Rows)
+            {
+                string permName = row["PermissionName"].ToString();
+
+                if (permName == "InventoryAdjustmentCreate")
+                    btnAdd.Visible = true;
+                else if (permName == "InventoryAdjustmentModify")
+                    btnEdit.Visible = true;
+            }
         }
         private void LoadData()
         {

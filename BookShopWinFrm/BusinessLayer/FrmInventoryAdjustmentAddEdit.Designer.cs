@@ -358,7 +358,9 @@
             Controls.Add(panel2);
             Controls.Add(panel1);
             Controls.Add(pnlHeader);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "FrmInventoryAdjustmentAddEdit";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FrmInventoryAdjustmentAddEdit";
             pnlFooter.ResumeLayout(false);
             pnlFooter.PerformLayout();

@@ -16,6 +16,8 @@ namespace BookShopWinFrm.BusinessLayer
     {
         DataTable dtVendor;
 
+        public DataTable UserPermissions { get; set; }
+
         public FrmVendor()
         {
             InitializeComponent();
@@ -24,6 +26,37 @@ namespace BookShopWinFrm.BusinessLayer
         private void FrmVendor_Load(object sender, EventArgs e)
         {
             LoadData();
+            ApplyPermissions();
+        }
+
+        private void ApplyPermissions()
+        {
+            if (FrmMain.CurrentUser?.IsAdmin == true)
+            {
+                btnAdd.Visible = true;
+                btnEdit.Visible = true;
+                btnDelete.Visible = true;
+                return;
+            }
+
+            btnAdd.Visible = false;
+            btnEdit.Visible = false;
+            btnDelete.Visible = false;
+
+            if (this.UserPermissions == null || this.UserPermissions.Rows.Count == 0)
+                return;
+
+            foreach (DataRow row in this.UserPermissions.Rows)
+            {
+                string permName = row["PermissionName"].ToString();
+
+                if (permName == "VendorCreate")
+                    btnAdd.Visible = true;
+                else if (permName == "VendorModify")
+                    btnEdit.Visible = true;
+                else if (permName == "VendorDelete")
+                    btnDelete.Visible = true;
+            }
         }
         private void LoadData()
         {

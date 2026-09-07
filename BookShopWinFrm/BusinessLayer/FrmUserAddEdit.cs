@@ -92,7 +92,11 @@ namespace BookShopWinFrm.BusinessLayer
 
             if (newUser)
             {
-                AppUserService.Add(user);
+                int newId = AppUserService.Add(user);
+                if (user.IsAdmin)
+                {
+                    GrantAllPermissions(newId);
+                }
             }
             else
             {
@@ -101,6 +105,31 @@ namespace BookShopWinFrm.BusinessLayer
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
+
+        private void GrantAllPermissions(int appUserId)
+        {
+            string[] permissions =
+            {
+                "CustomerView", "CustomerCreate", "CustomerModify", "CustomerDelete",
+                "SaleView", "SaleCreate", "SaleModify", "SaleDelete",
+                "VendorView", "VendorCreate", "VendorModify", "VendorDelete",
+                "PurchaseView", "PurchaseCreate", "PurchaseModify", "PurchaseDelete",
+                "ItemView", "ItemCreate", "ItemModify", "ItemDelete",
+                "InventoryAdjustmentView", "InventoryAdjustmentCreate", "InventoryAdjustmentModify",
+                "EmployeeView", "EmployeeCreate", "EmployeeModify", "EmployeeDelete",
+                "UserView", "UserCreate", "UserModify", "UserDelete"
+            };
+
+            foreach (string permission in permissions)
+            {
+                AppUserService.AddUserPermission(new AppUserPermission
+                {
+                    AppUserId = appUserId,
+                    PermissionName = permission
+                });
+            }
+        }
+
         private bool DoValidation()
         {
             if (cmbEmployee.SelectedIndex < 0)

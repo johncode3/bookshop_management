@@ -15,13 +15,48 @@ namespace BookShopWinFrm.BusinessLayer
     public partial class FrmItem : Form
     {
         DataTable dtItem;
+
+        public DataTable UserPermissions { get; set; }
+
         public FrmItem()
         {
             InitializeComponent();
         }
+
         private void FrmItem_Load(object sender, EventArgs e)
         {
             LoadData();
+            ApplyPermissions();
+        }
+
+        private void ApplyPermissions()
+        {
+            if (FrmMain.CurrentUser?.IsAdmin == true)
+            {
+                btnAdd.Visible = true;
+                btnEdit.Visible = true;
+                btnDelete.Visible = true;
+                return;
+            }
+
+            btnAdd.Visible = false;
+            btnEdit.Visible = false;
+            btnDelete.Visible = false;
+
+            if (this.UserPermissions == null || this.UserPermissions.Rows.Count == 0)
+                return;
+
+            foreach (DataRow row in this.UserPermissions.Rows)
+            {
+                string permName = row["PermissionName"].ToString();
+
+                if (permName == "ItemCreate")
+                    btnAdd.Visible = true;
+                else if (permName == "ItemModify")
+                    btnEdit.Visible = true;
+                else if (permName == "ItemDelete")
+                    btnDelete.Visible = true;
+            }
         }
         private void LoadData()
         {

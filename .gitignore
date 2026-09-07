@@ -10,6 +10,16 @@
 *.userosscache
 *.sln.docstates
 
+# Local secrets and machine-specific config
+BookShopWinFrm/DataLayer/POSContext.local.cs
+BookShopWinFrm/appsettings.Development.json
+BookShopWinFrm/appsettings.local.json
+appsettings.Development.json
+appsettings.local.json
+*.local.json
+*.secrets.json
+*.secret.json
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

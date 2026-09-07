@@ -15,6 +15,9 @@ namespace BookShopWinFrm.BusinessLayer
     public partial class FrmPurchase : Form
     {
         DataTable dtPurchase;
+
+        public DataTable UserPermissions { get; set; }
+
         public FrmPurchase()
         {
             InitializeComponent();
@@ -23,6 +26,37 @@ namespace BookShopWinFrm.BusinessLayer
         private void FrmPurchase_Load(object sender, EventArgs e)
         {
             LoadData();
+            ApplyPermissions();
+        }
+
+        private void ApplyPermissions()
+        {
+            if (FrmMain.CurrentUser?.IsAdmin == true)
+            {
+                btnAdd.Visible = true;
+                btnEdit.Visible = true;
+                btnCancel.Visible = true;
+                return;
+            }
+
+            btnAdd.Visible = false;
+            btnEdit.Visible = false;
+            btnCancel.Visible = false;
+
+            if (this.UserPermissions == null || this.UserPermissions.Rows.Count == 0)
+                return;
+
+            foreach (DataRow row in this.UserPermissions.Rows)
+            {
+                string permName = row["PermissionName"].ToString();
+
+                if (permName == "PurchaseCreate")
+                    btnAdd.Visible = true;
+                else if (permName == "PurchaseModify")
+                    btnEdit.Visible = true;
+                else if(permName == "PurchaseDelete")
+                    btnCancel.Visible = true;
+            }
         }
         private void LoadData()
         {
