@@ -14,16 +14,9 @@ namespace BookShopWinFrm.BusinessLayer
 {
     public partial class FrmMain : Form
     {
+        // Child Form Instances
         FrmLogin frmLogin;
         FrmCustomer frmCustomer;
-<<<<<<< HEAD
-        FrmSale frmSales;
-        FrmEmployee frmEmployee;
-        FrmVendor frmVendor;
-        FrmInventoryAdjustment frmInventoryAdjustment;
-        FrmUser frmUser;
-        DataTable dtUserPermissions;
-=======
         FrmSale frmSale;
         FrmVendor frmVendor;
         FrmPurchase frmPurchase;
@@ -34,15 +27,15 @@ namespace BookShopWinFrm.BusinessLayer
         FrmPOS frmPOS;
 
         DataTable dtUserPermission;
+
+        // Session Property
         public static AppUser CurrentUser { get; private set; }
         public AppUser UserLogin
         {
             get => CurrentUser;
             set => CurrentUser = value;
         }
->>>>>>> 3aaab69 (Add role permissions and safe config handling)
 
-        public AppUser UserLogin { get; set; }
         public FrmMain()
         {
             InitializeComponent();
@@ -58,70 +51,93 @@ namespace BookShopWinFrm.BusinessLayer
         {
             if (this.UserLogin == null) return;
 
-            mnuUserCenter.Visible = this.UserLogin.IsAdmin;
-            pnlSubUserManagement.Visible = false;
+            // 1. Hide submenus by default for regular users
+            if (submnuCustomerList != null) submnuCustomerList.Visible = false;
+            if (submnuSaleTransaction != null) submnuSaleTransaction.Visible = false;
+            if (submnuVendorList != null) submnuVendorList.Visible = false;
+            if (submnuPurchaseTransction != null) submnuPurchaseTransction.Visible = false;
+            if (submnuItemList != null) submnuItemList.Visible = false;
+            if (submnuInventoryAdjTransaction != null) submnuInventoryAdjTransaction.Visible = false;
+            if (submnuEmployeeList != null) submnuEmployeeList.Visible = false;
+            if (submnuUserAccountPermission != null) submnuUserAccountPermission.Visible = false;
 
-            if (this.UserLogin.IsAdmin) return;
+            // Admin bypasses granular permission table loop
+            if (this.UserLogin.IsAdmin)
+            {
+                if (submnuCustomerList != null) submnuCustomerList.Visible = true;
+                if (submnuSaleTransaction != null) submnuSaleTransaction.Visible = true;
+                if (submnuVendorList != null) submnuVendorList.Visible = true;
+                if (submnuPurchaseTransction != null) submnuPurchaseTransction.Visible = true;
+                if (submnuItemList != null) submnuItemList.Visible = true;
+                if (submnuInventoryAdjTransaction != null) submnuInventoryAdjTransaction.Visible = true;
+                if (submnuEmployeeList != null) submnuEmployeeList.Visible = true;
+                if (submnuUserAccountPermission != null) submnuUserAccountPermission.Visible = true;
+                return;
+            }
 
-            submnuCustomerList.Visible = false;
-            submnuSaleTransaction.Visible = false;
-            submnuVendorList.Visible = false;
-            submnuPurchaseTransction.Visible = false;
-            submnuItemList.Visible = false;
-            submnuInventoryAdjTransaction.Visible = false;
-            submnuEmployeeList.Visible = false;
-            submnuUserAccountPermission.Visible = false;
-
+            // 2. Fetch granular permissions from database
             dtUserPermission = AppUserService.GetUserPermissions(this.UserLogin.AppUserId);
+
             if (dtUserPermission != null && dtUserPermission.Rows.Count > 0)
             {
                 foreach (DataRow row in dtUserPermission.Rows)
                 {
                     string permName = row["PermissionName"].ToString();
 
-                    if (permName == "CustomerView") submnuCustomerList.Visible = true;
-                    if (permName == "SaleView") submnuSaleTransaction.Visible = true;
-                    if (permName == "VendorView") submnuVendorList.Visible = true;
-                    if (permName == "PurchaseView") submnuPurchaseTransction.Visible = true;
-                    if (permName == "ItemView") submnuItemList.Visible = true;
-                    if (permName == "InventoryAdjustmentView") submnuInventoryAdjTransaction.Visible = true;
-                    if (permName == "EmployeeView") submnuEmployeeList.Visible = true;
-                    if (permName == "UserView") submnuUserAccountPerssion.Visible = true;
+                    if (permName == "CustomerView" && submnuCustomerList != null) submnuCustomerList.Visible = true;
+                    if (permName == "SaleView" && submnuSaleTransaction != null) submnuSaleTransaction.Visible = true;
+                    if (permName == "VendorView" && submnuVendorList != null) submnuVendorList.Visible = true;
+                    if (permName == "PurchaseView" && submnuPurchaseTransction != null) submnuPurchaseTransction.Visible = true;
+                    if (permName == "ItemView" && submnuItemList != null) submnuItemList.Visible = true;
+                    if (permName == "InventoryAdjustmentView" && submnuInventoryAdjTransaction != null) submnuInventoryAdjTransaction.Visible = true;
+                    if (permName == "EmployeeView" && submnuEmployeeList != null) submnuEmployeeList.Visible = true;
+                    if (permName == "UserView" && submnuUserAccountPermission != null) submnuUserAccountPermission.Visible = true;
                 }
             }
         }
 
+        // ==========================================
+        // SIDEBAR ACCORDION DROPDOWN TOGGLES
+        // ==========================================
         private void mnuCustomerCenter_Click(object sender, EventArgs e)
         {
-            pnlSubMnuCustomerCenter.Visible = !pnlSubMnuCustomerCenter.Visible;
+            if (pnlSubMnuCustomerCenter != null)
+                pnlSubMnuCustomerCenter.Visible = !pnlSubMnuCustomerCenter.Visible;
         }
 
         private void mnuVendorCenter_Click(object sender, EventArgs e)
         {
-            pnlSubMenuVendorCenter.Visible = !pnlSubMenuVendorCenter.Visible;
+            if (pnlSubMenuVendorCenter != null)
+                pnlSubMenuVendorCenter.Visible = !pnlSubMenuVendorCenter.Visible;
         }
 
         private void mnuInventoryCenter_Click(object sender, EventArgs e)
         {
-            pnlSubMenuInventoryAdjCenter.Visible = !pnlSubMenuInventoryAdjCenter.Visible;
+            if (pnlSubMenuInventoryAdjCenter != null)
+                pnlSubMenuInventoryAdjCenter.Visible = !pnlSubMenuInventoryAdjCenter.Visible;
         }
 
         private void mnuEmployeeCenter_Click(object sender, EventArgs e)
         {
-            pnlSubMenuEmployeeCenter.Visible = !pnlSubMenuEmployeeCenter.Visible;
+            if (pnlSubMenuEmployeeCenter != null)
+                pnlSubMenuEmployeeCenter.Visible = !pnlSubMenuEmployeeCenter.Visible;
         }
 
         private void mnuUserCenter_Click(object sender, EventArgs e)
         {
-            pnlSubUserManagement.Visible = !pnlSubUserManagement.Visible;
+            if (pnlSubUserManagement != null)
+                pnlSubUserManagement.Visible = !pnlSubUserManagement.Visible;
         }
 
+
+        // ==========================================
+        // CHILD FORM NAVIGATION LOADERS
+        // ==========================================
         private void submnuCustomerList_Click(object sender, EventArgs e)
         {
             if (frmCustomer == null || frmCustomer.IsDisposed)
             {
                 frmCustomer = new FrmCustomer();
-                frmCustomer.UserPermissions = dtUserPermission;
             }
             LoadFormIntoPanel(frmCustomer);
         }
@@ -140,7 +156,6 @@ namespace BookShopWinFrm.BusinessLayer
             if (frmVendor == null || frmVendor.IsDisposed)
             {
                 frmVendor = new FrmVendor();
-                frmVendor.UserPermissions = dtUserPermission;
             }
             LoadFormIntoPanel(frmVendor);
         }
@@ -150,7 +165,6 @@ namespace BookShopWinFrm.BusinessLayer
             if (frmPurchase == null || frmPurchase.IsDisposed)
             {
                 frmPurchase = new FrmPurchase();
-                frmPurchase.UserPermissions = dtUserPermission;
             }
             LoadFormIntoPanel(frmPurchase);
         }
@@ -169,7 +183,6 @@ namespace BookShopWinFrm.BusinessLayer
             if (frmInventoryAdjustment == null || frmInventoryAdjustment.IsDisposed)
             {
                 frmInventoryAdjustment = new FrmInventoryAdjustment();
-                frmInventoryAdjustment.UserPermissions = dtUserPermission;
             }
             LoadFormIntoPanel(frmInventoryAdjustment);
         }
@@ -201,6 +214,10 @@ namespace BookShopWinFrm.BusinessLayer
             LoadFormIntoPanel(frmPOS);
         }
 
+
+        // ==========================================
+        // HELPER PANEL LOADER ENGINE
+        // ==========================================
         private void LoadFormIntoPanel(Form childForm)
         {
             if (childForm == null || childForm.IsDisposed)
@@ -224,6 +241,11 @@ namespace BookShopWinFrm.BusinessLayer
             childForm.Show();
             childForm.BringToFront();
         }
+
+
+        // ==========================================
+        // UI VISUAL HOVER EFFECTS
+        // ==========================================
         private void RegisterMenuHoverEffects()
         {
             Panel[] menuPanels =
@@ -247,8 +269,11 @@ namespace BookShopWinFrm.BusinessLayer
 
             foreach (Panel panel in menuPanels)
             {
-                panel.MouseEnter += MenuPanel_MouseEnter;
-                panel.MouseLeave += MenuPanel_MouseLeave;
+                if (panel != null)
+                {
+                    panel.MouseEnter += MenuPanel_MouseEnter;
+                    panel.MouseLeave += MenuPanel_MouseLeave;
+                }
             }
         }
 
@@ -267,114 +292,5 @@ namespace BookShopWinFrm.BusinessLayer
                 panel.BackColor = Color.Transparent;
             }
         }
-<<<<<<< HEAD
-
-        private void FrmMain_Load(object sender, EventArgs e)
-        {
-           frmLogin = new FrmLogin(this);
-           if (frmLogin.ShowDialog() == DialogResult.OK)
-           {
-               if (this.UserLogin != null)
-               {
-                   LoadUserPermissions();
-                   
-                   if (this.UserLogin.IsAdmin == 1)
-                   {
-                       this.mnuAdmin.Visible = true;
-                   }
-                   else
-                   {
-                       this.mnuAdmin.Visible = false;
-                   }
-               }
-           }
-           else
-           {
-               Application.Exit();
-           }
-        }
-        void LoadUserPermissions()
-        {
-           dtUserPermissions = AppUserService.GetPermissions(this.UserLogin.AppUserId);
-           
-           if(dtUserPermissions != null && dtUserPermissions.Rows.Count > 0)
-            {
-                foreach(DataRow row in dtUserPermissions.Rows)
-                {
-                    string perm = row["PermissionName"].ToString();
-                    
-                    if (perm == "CustomerView")
-                    {
-                        this.mnuCustomer.Visible = true;
-                    }
-                    if (perm == "SaleView")
-                    {
-                        this.mnuSales.Visible = true;
-                    }
-                    if (perm == "EmployeeView")
-                    {
-                        this.mnuEmployee.Visible = true;
-                    }
-                    if (perm == "VendorView")
-                    {
-                        this.mnuVendor.Visible = true;
-                    }
-                    if (perm == "InventoryAdjustmentView")
-                    {
-                        this.mnuInventoryAdjustment.Visible = true;
-                    }
-                    if (perm == "UserView")
-                    {
-                        this.mnuUser.Visible = true;
-                    }
-                }
-            }
-        }
-        private void mnuCustomerCenter_Click(object sender, EventArgs e)
-        {
-           mnuCustomerDropdown.Visible = !mnuCustomerDropdown.Visible;
-        }
-        private void submnuCustomer_Click(object sender, EventArgs e)
-        {
-           if (frmCustomer == null || frmCustomer.IsDisposed)
-           {
-               frmCustomer = new FrmCustomer();
-               frmCustomer.TopLevel = false;
-               frmCustomer.FormBorderStyle = FormBorderStyle.None;
-               frmCustomer.Dock = DockStyle.Fill;
-               pnlMain.Controls.Add(frmCustomer);
-               pnlMain.Tag = frmCustomer;
-               frmCustomer.BringToFront();
-               frmCustomer.Show();
-           }
-           else
-           {
-               frmCustomer.BringToFront();
-           }
-        }
-        private void mnuSalesCenter_Click(object sender, EventArgs e)
-        {
-            mnuSalesDropdown.Visible = !mnuSalesDropdown.Visible;
-        }
-        private void submnuSales_Click(object sender, EventArgs e)
-        {
-            if (frmSales == null || frmSales.IsDisposed)
-            {
-                frmSales = new FrmSale();
-                frmSales.TopLevel = false;
-                frmSales.FormBorderStyle = FormBorderStyle.None;
-                frmSales.Dock = DockStyle.Fill;
-                pnlMain.Controls.Add(frmSales);
-                pnlMain.Tag = frmSales;
-                frmSales.BringToFront();
-                frmSales.Show();
-            }
-            else
-            {
-                frmSales.BringToFront();
-            }
-        }
-=======
->>>>>>> 3aaab69 (Add role permissions and safe config handling)
     }
 }

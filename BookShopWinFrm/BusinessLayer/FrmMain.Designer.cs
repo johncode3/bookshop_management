@@ -158,7 +158,7 @@
             pnlMenuBar.Location = new Point(0, 136);
             pnlMenuBar.Name = "pnlMenuBar";
             pnlMenuBar.Padding = new Padding(20, 10, 20, 0);
-            pnlMenuBar.Size = new Size(401, 919);
+            pnlMenuBar.Size = new Size(401, 1062);
             pnlMenuBar.TabIndex = 1;
             // 
             // pnlSubUserManagement
@@ -623,7 +623,7 @@
             pnlLine.Dock = DockStyle.Left;
             pnlLine.Location = new Point(401, 136);
             pnlLine.Name = "pnlLine";
-            pnlLine.Size = new Size(5, 919);
+            pnlLine.Size = new Size(5, 1062);
             pnlLine.TabIndex = 2;
             // 
             // pnlMain
@@ -631,14 +631,14 @@
             pnlMain.Dock = DockStyle.Fill;
             pnlMain.Location = new Point(406, 136);
             pnlMain.Name = "pnlMain";
-            pnlMain.Size = new Size(789, 919);
+            pnlMain.Size = new Size(789, 1062);
             pnlMain.TabIndex = 3;
             // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1195, 1055);
+            ClientSize = new Size(1195, 1198);
             Controls.Add(pnlMain);
             Controls.Add(pnlLine);
             Controls.Add(pnlMenuBar);
