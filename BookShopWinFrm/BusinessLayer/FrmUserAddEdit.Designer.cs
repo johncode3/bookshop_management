@@ -47,6 +47,7 @@
             btnSave = new Button();
             pnlFooter = new Panel();
             openFileUpload = new OpenFileDialog();
+            chkIsActive = new CheckBox();
             pnlHeader.SuspendLayout();
             pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)imgProfile).BeginInit();
@@ -76,6 +77,7 @@
             // pnlMain
             // 
             pnlMain.BackColor = SystemColors.ControlLight;
+            pnlMain.Controls.Add(chkIsActive);
             pnlMain.Controls.Add(imgProfile);
             pnlMain.Controls.Add(btnUpload);
             pnlMain.Controls.Add(chkIsAdmin);
@@ -96,7 +98,7 @@
             // 
             // imgProfile
             // 
-            imgProfile.Location = new Point(278, 316);
+            imgProfile.Location = new Point(298, 316);
             imgProfile.Name = "imgProfile";
             imgProfile.Size = new Size(145, 158);
             imgProfile.SizeMode = PictureBoxSizeMode.Zoom;
@@ -124,11 +126,11 @@
             // 
             chkIsAdmin.AutoSize = true;
             chkIsAdmin.Font = new Font("Kh Pen Wappathor", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            chkIsAdmin.Location = new Point(25, 428);
+            chkIsAdmin.Location = new Point(22, 428);
             chkIsAdmin.Name = "chkIsAdmin";
-            chkIsAdmin.Size = new Size(122, 35);
+            chkIsAdmin.Size = new Size(118, 35);
             chkIsAdmin.TabIndex = 14;
-            chkIsAdmin.Text = "Is Admin ?";
+            chkIsAdmin.Text = "Is Admin?";
             chkIsAdmin.UseVisualStyleBackColor = true;
             // 
             // label7
@@ -263,6 +265,17 @@
             // 
             openFileUpload.FileName = "openFileDialog1";
             // 
+            // chkIsActive
+            // 
+            chkIsActive.AutoSize = true;
+            chkIsActive.Font = new Font("Kh Pen Wappathor", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            chkIsActive.Location = new Point(150, 428);
+            chkIsActive.Name = "chkIsActive";
+            chkIsActive.Size = new Size(117, 35);
+            chkIsActive.TabIndex = 39;
+            chkIsActive.Text = "Is Active?";
+            chkIsActive.UseVisualStyleBackColor = true;
+            // 
             // FrmUserAddEdit
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -305,5 +318,6 @@
         private Button btnUpload;
         private Label label7;
         private OpenFileDialog openFileUpload;
+        private CheckBox chkIsActive;
     }
 }

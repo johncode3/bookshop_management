@@ -28,6 +28,7 @@ namespace BookShopWinFrm.BusinessLayer
                 lblTitle.Text = "New User";
                 this.Text = "List : New User";
                 newUser = true;
+                this.user.IsActive = true;
             }
             else
             {
@@ -46,6 +47,7 @@ namespace BookShopWinFrm.BusinessLayer
             txtConfirmPassword.Text = user.Password;
             cmbEmployee.SelectedValue = user.EmployeeId;
             chkIsAdmin.Checked = user.IsAdmin;
+            chkIsActive.Checked = user.IsActive;
             if (user.Avatar != null && user.Avatar.Length > 0)
             {
                 using (MemoryStream ms = new MemoryStream(user.Avatar))
@@ -77,6 +79,7 @@ namespace BookShopWinFrm.BusinessLayer
             user.UserName = txtUserName.Text;
             user.Password = txtPassword.Text;
             user.IsAdmin = chkIsAdmin.Checked;
+            user.IsActive = chkIsActive.Checked;
             if (imgProfile.Image != null)
             {
                 using (MemoryStream ms = new MemoryStream())
@@ -92,6 +95,7 @@ namespace BookShopWinFrm.BusinessLayer
 
             if (newUser)
             {
+                user.IsActive = true;
                 int newId = AppUserService.Add(user);
                 if (user.IsAdmin)
                 {

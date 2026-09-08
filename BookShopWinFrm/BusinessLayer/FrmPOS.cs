@@ -64,6 +64,16 @@ namespace BookShopWinFrm.BusinessLayer
 
                 dtSaleDetail = SaleService.GetDetail(0);
 
+                DataTable dtCust = cmbCustomer.DataSource as DataTable;
+                if (dtCust != null)
+                {
+                    DataRow[] rows = dtCust.Select("CustomerName = 'Walk-in Customer'");
+                    if (rows.Length > 0)
+                    {
+                        cmbCustomer.SelectedValue = rows[0]["CustomerId"];
+                    }
+                }
+
                 DataRow dr = dtSaleDetail.NewRow();
                 dtSaleDetail.Rows.Add(dr);
             }
@@ -200,6 +210,8 @@ namespace BookShopWinFrm.BusinessLayer
 
                 dtSaleDetail.Rows.Add(newRow);
             }
+
+            UpdateTotalPrice();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
