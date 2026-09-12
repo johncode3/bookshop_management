@@ -139,7 +139,7 @@ namespace BookShopWinFrm.DataLayer.Services
             OracleCommand command = new OracleCommand("AppUserPermissionAdd", POSContext.GetConnection());
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add("P_AppUserId", appUserpermission.AppUserId);
-            command.Parameters.Add("P_PermissionName", appUserpermission.PermissionName); // FIXED: Matches SP parameter name
+            command.Parameters.Add("P_PermissionName", appUserpermission.PermissionName);
             command.ExecuteNonQuery();
         }
 

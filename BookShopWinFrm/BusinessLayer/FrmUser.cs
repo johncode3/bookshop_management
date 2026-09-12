@@ -22,6 +22,7 @@ namespace BookShopWinFrm.BusinessLayer
         public FrmUser()
         {
             InitializeComponent();
+            this.VisibleChanged += FrmUser_VisibleChanged;
         }
 
         private void FrmAppUser_Load(object sender, EventArgs e)
@@ -29,6 +30,14 @@ namespace BookShopWinFrm.BusinessLayer
             InitializePermissionCheckboxes();
             LoadData();
             ApplyPermissions();
+        }
+
+        private void FrmUser_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible)
+            {
+                LoadData();
+            }
         }
 
         private void ApplyPermissions()
@@ -250,16 +259,16 @@ namespace BookShopWinFrm.BusinessLayer
         {
             if (dgUsers.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Please select a user to delete.", "Delete User", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Please select a user to deactivate.", "Deactivate User", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            DialogResult confirm = MessageBox.Show("Are you sure you want to delete the selected user?", "Delete User", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult confirm = MessageBox.Show("Are you sure you want to deactivate the selected user?", "Deactivate User", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (confirm == DialogResult.Yes)
             {
                 int AppUserId = Convert.ToInt32(dgUsers.SelectedRows[0].Cells["AppUserId"].Value);
                 AppUserService.Delete(AppUserId);
                 LoadData();
-                MessageBox.Show("User deleted successfully.", "Delete User", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("User deactivated successfully.", "Deactivate User", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -365,7 +374,7 @@ namespace BookShopWinFrm.BusinessLayer
                 {
                     AppUserPermission userPermission = new AppUserPermission();
                     userPermission.AppUserId = appUserId;
-                    userPermission.PermissionName = cb.Name; // e.g., "CustomerView"
+                    userPermission.PermissionName = cb.Name;
                     AppUserService.AddUserPermission(userPermission);
                 }
                 else if (ctrl.HasChildren)

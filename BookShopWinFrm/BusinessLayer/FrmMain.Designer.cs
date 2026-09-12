@@ -32,6 +32,10 @@
             lblTitle = new Label();
             picLogo = new PictureBox();
             pnlMenuBar = new Panel();
+            panel1 = new Panel();
+            lblUserName = new Label();
+            picProfile = new PictureBox();
+            btnLogout = new Button();
             pnlSubUserManagement = new Panel();
             submnuUserAccountPerssion = new Panel();
             submnuUserAccountPermission = new Label();
@@ -76,9 +80,13 @@
             picDashbaord = new PictureBox();
             pnlLine = new Panel();
             pnlMain = new Panel();
+            panel2 = new Panel();
+            label1 = new Label();
             pnlTitleBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
             pnlMenuBar.SuspendLayout();
+            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)picProfile).BeginInit();
             pnlSubUserManagement.SuspendLayout();
             submnuUserAccountPerssion.SuspendLayout();
             mnuUserCenter.SuspendLayout();
@@ -116,7 +124,7 @@
             pnlTitleBar.Dock = DockStyle.Top;
             pnlTitleBar.Location = new Point(0, 0);
             pnlTitleBar.Name = "pnlTitleBar";
-            pnlTitleBar.Size = new Size(1195, 136);
+            pnlTitleBar.Size = new Size(1048, 136);
             pnlTitleBar.TabIndex = 0;
             // 
             // lblTitle
@@ -142,6 +150,8 @@
             // pnlMenuBar
             // 
             pnlMenuBar.BackColor = Color.White;
+            pnlMenuBar.Controls.Add(panel2);
+            pnlMenuBar.Controls.Add(panel1);
             pnlMenuBar.Controls.Add(pnlSubUserManagement);
             pnlMenuBar.Controls.Add(mnuUserCenter);
             pnlMenuBar.Controls.Add(pnlSubMenuEmployeeCenter);
@@ -158,8 +168,54 @@
             pnlMenuBar.Location = new Point(0, 136);
             pnlMenuBar.Name = "pnlMenuBar";
             pnlMenuBar.Padding = new Padding(20, 10, 20, 0);
-            pnlMenuBar.Size = new Size(401, 1062);
+            pnlMenuBar.Size = new Size(401, 1190);
             pnlMenuBar.TabIndex = 1;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(lblUserName);
+            panel1.Controls.Add(picProfile);
+            panel1.Controls.Add(btnLogout);
+            panel1.Dock = DockStyle.Bottom;
+            panel1.Location = new Point(20, 1012);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(361, 178);
+            panel1.TabIndex = 12;
+            // 
+            // lblUserName
+            // 
+            lblUserName.AutoSize = true;
+            lblUserName.Font = new Font("Kh Pen Wappathor", 13F, FontStyle.Bold);
+            lblUserName.ForeColor = SystemColors.HotTrack;
+            lblUserName.Location = new Point(182, 63);
+            lblUserName.Name = "lblUserName";
+            lblUserName.Size = new Size(91, 41);
+            lblUserName.TabIndex = 2;
+            lblUserName.Text = "Admin";
+            // 
+            // picProfile
+            // 
+            picProfile.Location = new Point(12, 9);
+            picProfile.Name = "picProfile";
+            picProfile.Size = new Size(111, 157);
+            picProfile.SizeMode = PictureBoxSizeMode.Zoom;
+            picProfile.TabIndex = 1;
+            picProfile.TabStop = false;
+            // 
+            // btnLogout
+            // 
+            btnLogout.BackColor = Color.Firebrick;
+            btnLogout.FlatStyle = FlatStyle.Popup;
+            btnLogout.Font = new Font("Kh Pen Wappathor", 8F, FontStyle.Bold);
+            btnLogout.ForeColor = Color.White;
+            btnLogout.Location = new Point(160, 125);
+            btnLogout.Name = "btnLogout";
+            btnLogout.Size = new Size(127, 41);
+            btnLogout.TabIndex = 0;
+            btnLogout.Text = "Log Out";
+            btnLogout.UseVisualStyleBackColor = false;
+            btnLogout.Click += btnLogout_Click;
             // 
             // pnlSubUserManagement
             // 
@@ -596,6 +652,7 @@
             mnuDashbaord.Name = "mnuDashbaord";
             mnuDashbaord.Size = new Size(361, 65);
             mnuDashbaord.TabIndex = 0;
+            mnuDashbaord.Click += mnuDashbaord_Click;
             // 
             // lblDashbaord
             // 
@@ -623,7 +680,7 @@
             pnlLine.Dock = DockStyle.Left;
             pnlLine.Location = new Point(401, 136);
             pnlLine.Name = "pnlLine";
-            pnlLine.Size = new Size(5, 1062);
+            pnlLine.Size = new Size(5, 1190);
             pnlLine.TabIndex = 2;
             // 
             // pnlMain
@@ -631,14 +688,33 @@
             pnlMain.Dock = DockStyle.Fill;
             pnlMain.Location = new Point(406, 136);
             pnlMain.Name = "pnlMain";
-            pnlMain.Size = new Size(789, 1062);
+            pnlMain.Size = new Size(642, 1190);
             pnlMain.TabIndex = 3;
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.Black;
+            panel2.Dock = DockStyle.Bottom;
+            panel2.Location = new Point(20, 1007);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(361, 5);
+            panel2.TabIndex = 13;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Kh Pen Wappathor", 13F, FontStyle.Bold);
+            label1.Location = new Point(153, 9);
+            label1.Name = "label1";
+            label1.Size = new Size(162, 41);
+            label1.TabIndex = 2;
+            label1.Text = "User Name :";
             // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1195, 1198);
+            ClientSize = new Size(1048, 1326);
             Controls.Add(pnlMain);
             Controls.Add(pnlLine);
             Controls.Add(pnlMenuBar);
@@ -651,6 +727,9 @@
             pnlTitleBar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
             pnlMenuBar.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)picProfile).EndInit();
             pnlSubUserManagement.ResumeLayout(false);
             submnuUserAccountPerssion.ResumeLayout(false);
             submnuUserAccountPerssion.PerformLayout();
@@ -746,5 +825,11 @@
         private Label lblUserManagement;
         private PictureBox pictureBox3;
         private Panel pnlMain;
+        private Panel panel1;
+        private Button btnLogout;
+        private Label lblUserName;
+        private PictureBox picProfile;
+        private Panel panel2;
+        private Label label1;
     }
 }

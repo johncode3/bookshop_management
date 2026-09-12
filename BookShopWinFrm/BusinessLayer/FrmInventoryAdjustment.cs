@@ -21,12 +21,21 @@ namespace BookShopWinFrm.BusinessLayer
         public FrmInventoryAdjustment()
         {
             InitializeComponent();
+            this.VisibleChanged += FrmInventoryAdjustment_VisibleChanged;
         }
 
         private void FrmInventoryAdjustment_Load(object sender, EventArgs e)
         {
             LoadData();
             ApplyPermissions();
+        }
+
+        private void FrmInventoryAdjustment_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible)
+            {
+                LoadData();
+            }
         }
 
         private void ApplyPermissions()
@@ -169,6 +178,7 @@ namespace BookShopWinFrm.BusinessLayer
             if (frmAddEdit.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
+                RefreshOpenedItemForm();
             }
         }
         private void btnEdit_Click(object sender, EventArgs e)
@@ -184,6 +194,19 @@ namespace BookShopWinFrm.BusinessLayer
             if (frmAddEdit.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
+                RefreshOpenedItemForm();
+            }
+        }
+
+        private void RefreshOpenedItemForm()
+        {
+            foreach (Form openForm in Application.OpenForms)
+            {
+                if (openForm is FrmItem itemForm)
+                {
+                    itemForm.RefreshItems();
+                    break;
+                }
             }
         }
     }

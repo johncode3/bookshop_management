@@ -106,7 +106,7 @@
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(138, 38);
             btnDelete.TabIndex = 2;
-            btnDelete.Text = "Delete";
+            btnDelete.Text = "Deactivate";
             btnDelete.UseVisualStyleBackColor = false;
             btnDelete.Visible = false;
             btnDelete.Click += btnDelete_Click;

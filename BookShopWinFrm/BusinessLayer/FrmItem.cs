@@ -21,12 +21,26 @@ namespace BookShopWinFrm.BusinessLayer
         public FrmItem()
         {
             InitializeComponent();
+            this.VisibleChanged += FrmItem_VisibleChanged;
         }
 
         private void FrmItem_Load(object sender, EventArgs e)
         {
             LoadData();
             ApplyPermissions();
+        }
+
+        private void FrmItem_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible)
+            {
+                LoadData();
+            }
+        }
+
+        public void RefreshItems()
+        {
+            LoadData();
         }
 
         private void ApplyPermissions()

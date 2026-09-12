@@ -105,9 +105,29 @@ namespace BookShopWinFrm.BusinessLayer
             else
             {
                 AppUserService.Update(user);
+                RefreshMainUserIfNeeded();
             }
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void RefreshMainUserIfNeeded()
+        {
+            if (FrmMain.CurrentUser == null || FrmMain.CurrentUser.AppUserId != user.AppUserId)
+                return;
+
+            AppUser refreshedUser = AppUserService.Get(user.AppUserId);
+            if (refreshedUser == null)
+                return;
+
+            foreach (Form openForm in Application.OpenForms)
+            {
+                if (openForm is FrmMain mainForm)
+                {
+                    mainForm.UserLogin = refreshedUser;
+                    break;
+                }
+            }
         }
 
         private void GrantAllPermissions(int appUserId)

@@ -269,6 +269,7 @@ namespace BookShopWinFrm.BusinessLayer
                     {
                         MessageBox.Show("Sale added successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadItem();
+                        RefreshOpenedItemForm();
                         ResetForm();
                     }
                 }
@@ -325,12 +326,25 @@ namespace BookShopWinFrm.BusinessLayer
                         SaleService.Update(sale);
                         MessageBox.Show("Sale updated successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadItem();
+                        RefreshOpenedItemForm();
                         this.DialogResult = DialogResult.OK;
                         this.Close();
                     }
                 }
             }
         }
+        private void RefreshOpenedItemForm()
+        {
+            foreach (Form openForm in Application.OpenForms)
+            {
+                if (openForm is FrmItem itemForm)
+                {
+                    itemForm.RefreshItems();
+                    break;
+                }
+            }
+        }
+
         bool DoValidation()
         {
             if (!newsale && !string.IsNullOrEmpty(sale.Status) &&

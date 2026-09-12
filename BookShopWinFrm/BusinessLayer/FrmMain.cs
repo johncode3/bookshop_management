@@ -14,7 +14,7 @@ namespace BookShopWinFrm.BusinessLayer
 {
     public partial class FrmMain : Form
     {
-        // Child Form Instances
+        FrmDashboard frmDashboard;
         FrmLogin frmLogin;
         FrmCustomer frmCustomer;
         FrmSale frmSale;
@@ -27,13 +27,17 @@ namespace BookShopWinFrm.BusinessLayer
         FrmPOS frmPOS;
 
         DataTable dtUserPermission;
+        private Panel activeMenuPanel = null;
 
-        // Session Property
         public static AppUser CurrentUser { get; private set; }
         public AppUser UserLogin
         {
             get => CurrentUser;
-            set => CurrentUser = value;
+            set
+            {
+                CurrentUser = value;
+                ShowCurrentUserInfo();
+            }
         }
 
         public FrmMain()
@@ -44,14 +48,45 @@ namespace BookShopWinFrm.BusinessLayer
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
+            ShowCurrentUserInfo();
             LoadUserPermission();
+
+            if (frmDashboard == null || frmDashboard.IsDisposed)
+            {
+                frmDashboard = new FrmDashboard();
+            }
+            LoadFormIntoPanel(frmDashboard);
+            SetActiveMenuPanel(mnuDashbaord);
+        }
+
+        private void ShowCurrentUserInfo()
+        {
+            if (lblUserName != null)
+            {
+                lblUserName.Text = CurrentUser?.UserName ?? string.Empty;
+            }
+
+            if (picProfile != null)
+            {
+                if (CurrentUser?.Avatar != null && CurrentUser.Avatar.Length > 0)
+                {
+                    using (MemoryStream ms = new MemoryStream(CurrentUser.Avatar))
+                    using (Image img = Image.FromStream(ms))
+                    {
+                        picProfile.Image = new Bitmap(img);
+                    }
+                }
+                else
+                {
+                    picProfile.Image = null;
+                }
+            }
         }
 
         void LoadUserPermission()
         {
             if (this.UserLogin == null) return;
 
-            // 1. Hide submenus by default for regular users
             if (submnuCustomerList != null) submnuCustomerList.Visible = false;
             if (submnuSaleTransaction != null) submnuSaleTransaction.Visible = false;
             if (submnuVendorList != null) submnuVendorList.Visible = false;
@@ -61,7 +96,6 @@ namespace BookShopWinFrm.BusinessLayer
             if (submnuEmployeeList != null) submnuEmployeeList.Visible = false;
             if (submnuUserAccountPermission != null) submnuUserAccountPermission.Visible = false;
 
-            // Admin bypasses granular permission table loop
             if (this.UserLogin.IsAdmin)
             {
                 if (submnuCustomerList != null) submnuCustomerList.Visible = true;
@@ -75,7 +109,6 @@ namespace BookShopWinFrm.BusinessLayer
                 return;
             }
 
-            // 2. Fetch granular permissions from database
             dtUserPermission = AppUserService.GetUserPermissions(this.UserLogin.AppUserId);
 
             if (dtUserPermission != null && dtUserPermission.Rows.Count > 0)
@@ -96,9 +129,6 @@ namespace BookShopWinFrm.BusinessLayer
             }
         }
 
-        // ==========================================
-        // SIDEBAR ACCORDION DROPDOWN TOGGLES
-        // ==========================================
         private void mnuCustomerCenter_Click(object sender, EventArgs e)
         {
             if (pnlSubMnuCustomerCenter != null)
@@ -129,10 +159,15 @@ namespace BookShopWinFrm.BusinessLayer
                 pnlSubUserManagement.Visible = !pnlSubUserManagement.Visible;
         }
 
-
-        // ==========================================
-        // CHILD FORM NAVIGATION LOADERS
-        // ==========================================
+        private void mnuDashbaord_Click(object sender, EventArgs e)
+        {
+            if (frmDashboard == null || frmDashboard.IsDisposed)
+            {
+                frmDashboard = new FrmDashboard();
+            }
+            LoadFormIntoPanel(frmDashboard);
+            SetActiveMenuPanel(mnuDashbaord);
+        }
         private void submnuCustomerList_Click(object sender, EventArgs e)
         {
             if (frmCustomer == null || frmCustomer.IsDisposed)
@@ -140,6 +175,7 @@ namespace BookShopWinFrm.BusinessLayer
                 frmCustomer = new FrmCustomer();
             }
             LoadFormIntoPanel(frmCustomer);
+            SetActiveMenuPanel(submnuCustomerList);
         }
 
         private void submnuSaleTransaction_Click(object sender, EventArgs e)
@@ -149,6 +185,7 @@ namespace BookShopWinFrm.BusinessLayer
                 frmSale = new FrmSale();
             }
             LoadFormIntoPanel(frmSale);
+            SetActiveMenuPanel(submnuSaleTransaction);
         }
 
         private void submnuVendorList_Click(object sender, EventArgs e)
@@ -158,6 +195,7 @@ namespace BookShopWinFrm.BusinessLayer
                 frmVendor = new FrmVendor();
             }
             LoadFormIntoPanel(frmVendor);
+            SetActiveMenuPanel(submnuVendorList);
         }
 
         private void submnuPurchaseTransction_Click(object sender, EventArgs e)
@@ -167,6 +205,7 @@ namespace BookShopWinFrm.BusinessLayer
                 frmPurchase = new FrmPurchase();
             }
             LoadFormIntoPanel(frmPurchase);
+            SetActiveMenuPanel(submnuPurchaseTransction);
         }
 
         private void submnuItemList_Click(object sender, EventArgs e)
@@ -176,6 +215,7 @@ namespace BookShopWinFrm.BusinessLayer
                 frmItem = new FrmItem();
             }
             LoadFormIntoPanel(frmItem);
+            SetActiveMenuPanel(submnuItemList);
         }
 
         private void submnuInventoryAdjTransaction_Click(object sender, EventArgs e)
@@ -185,6 +225,7 @@ namespace BookShopWinFrm.BusinessLayer
                 frmInventoryAdjustment = new FrmInventoryAdjustment();
             }
             LoadFormIntoPanel(frmInventoryAdjustment);
+            SetActiveMenuPanel(submnuInventoryAdjTransaction);
         }
 
         private void submnuEmployeeList_Click(object sender, EventArgs e)
@@ -194,6 +235,7 @@ namespace BookShopWinFrm.BusinessLayer
                 frmEmployee = new FrmEmployee();
             }
             LoadFormIntoPanel(frmEmployee);
+            SetActiveMenuPanel(submnuEmployeeList);
         }
 
         private void submnuUserAccountPermission_Click(object sender, EventArgs e)
@@ -203,6 +245,7 @@ namespace BookShopWinFrm.BusinessLayer
                 frmUser = new FrmUser();
             }
             LoadFormIntoPanel(frmUser);
+            SetActiveMenuPanel(submnuUserAccountPerssion);
         }
 
         private void mnuPOS_Click(object sender, EventArgs e)
@@ -212,12 +255,9 @@ namespace BookShopWinFrm.BusinessLayer
                 frmPOS = new FrmPOS();
             }
             LoadFormIntoPanel(frmPOS);
+            SetActiveMenuPanel(mnuPOS);
         }
 
-
-        // ==========================================
-        // HELPER PANEL LOADER ENGINE
-        // ==========================================
         private void LoadFormIntoPanel(Form childForm)
         {
             if (childForm == null || childForm.IsDisposed)
@@ -242,10 +282,20 @@ namespace BookShopWinFrm.BusinessLayer
             childForm.BringToFront();
         }
 
+        private void SetActiveMenuPanel(Panel menuPanel)
+        {
+            if (activeMenuPanel != null)
+            {
+                activeMenuPanel.BackColor = Color.Transparent;
+            }
 
-        // ==========================================
-        // UI VISUAL HOVER EFFECTS
-        // ==========================================
+            activeMenuPanel = menuPanel;
+            if (activeMenuPanel != null)
+            {
+                activeMenuPanel.BackColor = Color.FromArgb(0, 122, 204);
+            }
+        }
+
         private void RegisterMenuHoverEffects()
         {
             Panel[] menuPanels =
@@ -289,8 +339,33 @@ namespace BookShopWinFrm.BusinessLayer
         {
             if (sender is Panel panel)
             {
-                panel.BackColor = Color.Transparent;
+                if (panel != activeMenuPanel)
+                {
+                    panel.BackColor = Color.Transparent;
+                }
             }
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            CurrentUser = null;
+            lblUserName.Text = string.Empty;
+            picProfile.Image = null;
+
+            this.Hide();
+            using (FrmLogin frmLogin = new FrmLogin(this))
+            {
+                if (frmLogin.ShowDialog() == DialogResult.OK)
+                {
+                    LoadUserPermission();
+                    this.Show();
+                }
+                else
+                {
+                    this.Close();
+                }
+            }
+
         }
     }
 }

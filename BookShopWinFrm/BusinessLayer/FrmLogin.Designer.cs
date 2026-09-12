@@ -150,9 +150,8 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDark;
-            ClientSize = new Size(1437, 738);
+            ClientSize = new Size(1290, 942);
             Controls.Add(pnlLogin);
-            FormBorderStyle = FormBorderStyle.None;
             Name = "FrmLogin";
             Text = "FrmLogin";
             WindowState = FormWindowState.Maximized;
