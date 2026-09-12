@@ -123,7 +123,7 @@
             btnCancel.ForeColor = Color.White;
             btnCancel.Location = new Point(323, 19);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(232, 38);
+            btnCancel.Size = new Size(218, 38);
             btnCancel.TabIndex = 2;
             btnCancel.Text = "Cancel Purchase";
             btnCancel.UseVisualStyleBackColor = false;

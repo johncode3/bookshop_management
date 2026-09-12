@@ -26,6 +26,7 @@ namespace BookShopWinFrm.BusinessLayer
             dgSaleDetail.CellValueChanged += dgSaleDetail_CellValueChanged;
             dgSaleDetail.CurrentCellDirtyStateChanged += dgSaleDetail_CurrentCellDirtyStateChanged;
             dgSaleDetail.AllowUserToAddRows = false;
+            this.VisibleChanged += FrmPOS_VisibleChanged;
 
             LoadCustomer();
             LoadEmployee();
@@ -48,6 +49,16 @@ namespace BookShopWinFrm.BusinessLayer
             LoadSale();
         }
 
+        private void FrmPOS_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible)
+            {
+                LoadCustomer();
+                LoadEmployee();
+                LoadItem();
+            }
+        }
+
         void LoadSale()
         {
             dgSaleDetail.AutoGenerateColumns = false;
@@ -57,32 +68,38 @@ namespace BookShopWinFrm.BusinessLayer
                 cmbCustomer.SelectedIndex = -1;
                 dtmSaleDate.Value = DateTime.Now;
                 cmbEmployee.SelectedIndex = -1;
+
+                // Setup status items for NEW sale (Hide Cancelled)
+                cmbStatus.Items.Clear();
+                cmbStatus.Items.Add("Completed");
+                cmbStatus.Items.Add("On Hold");
                 cmbStatus.SelectedItem = "Completed";
+
                 txtNote.Text = "";
                 txtRefNumber.Text = "INV-" + DateTime.Now.ToString("yyyyMMdd-HHmm");
                 txtRefNumber.ReadOnly = true;
 
                 dtSaleDetail = SaleService.GetDetail(0);
 
-                DataTable dtCust = cmbCustomer.DataSource as DataTable;
-                if (dtCust != null)
-                {
-                    DataRow[] rows = dtCust.Select("CustomerName = 'Walk-in Customer'");
-                    if (rows.Length > 0)
-                    {
-                        cmbCustomer.SelectedValue = rows[0]["CustomerId"];
-                    }
-                }
-
                 DataRow dr = dtSaleDetail.NewRow();
                 dtSaleDetail.Rows.Add(dr);
             }
             else
             {
+                // Setup status items for EDIT mode (Include Cancelled)
+                if (!cmbStatus.Items.Contains("Cancelled"))
+                {
+                    cmbStatus.Items.Clear();
+                    cmbStatus.Items.Add("Completed");
+                    cmbStatus.Items.Add("On Hold");
+                    cmbStatus.Items.Add("Cancelled");
+                }
+
                 cmbCustomer.SelectedValue = sale.CustomerId;
                 txtRefNumber.Text = sale.RefNumber;
                 dtmSaleDate.Value = sale.SaleDate;
                 cmbEmployee.SelectedValue = sale.EmployeeId;
+
                 if (!string.IsNullOrEmpty(sale.Status))
                 {
                     cmbStatus.SelectedItem = sale.Status;
@@ -91,6 +108,7 @@ namespace BookShopWinFrm.BusinessLayer
                 {
                     cmbStatus.SelectedItem = "Completed";
                 }
+
                 txtNote.Text = sale.Note;
                 dtSaleDetail = SaleService.GetDetail(sale.SaleId);
 
@@ -101,7 +119,7 @@ namespace BookShopWinFrm.BusinessLayer
                     cmbEmployee.Enabled = false;
                     txtRefNumber.ReadOnly = true;
                     dtmSaleDate.Enabled = false;
-                    txtNote.ReadOnly = false;
+                    txtNote.ReadOnly = true;
                     cmbStatus.Enabled = false;
                 }
             }
@@ -167,6 +185,16 @@ namespace BookShopWinFrm.BusinessLayer
         {
             ItemButton itemBtn = (ItemButton)sender;
 
+            if (itemBtn.Data == null)
+                return;
+
+            decimal availableQty = GetAvailableQuantity(itemBtn.Data.ItemId);
+            if (availableQty <= 0)
+            {
+                MessageBox.Show("This item is out of stock.", "Out of Stock", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             for (int i = dtSaleDetail.Rows.Count - 1; i >= 0; i--)
             {
                 DataRow dr = dtSaleDetail.Rows[i];
@@ -189,8 +217,14 @@ namespace BookShopWinFrm.BusinessLayer
                     decimal currentQty = Convert.ToDecimal(data["Quantity"] ?? 0);
                     decimal unitPrice = Convert.ToDecimal(data["UnitPriceAtSale"] ?? itemBtn.Data.SalePrice);
                     decimal discount = data.Table.Columns.Contains("DiscountAmount") && data["DiscountAmount"] != DBNull.Value ? Convert.ToDecimal(data["DiscountAmount"]) : 0m;
-
                     decimal newQty = currentQty + 1;
+
+                    if (newQty > availableQty)
+                    {
+                        MessageBox.Show($"Only {availableQty:0} item(s) are available in stock.", "Insufficient Stock", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
                     data["Quantity"] = newQty;
                     data["Price"] = (newQty * unitPrice) - discount;
                     isExisted = true;

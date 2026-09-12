@@ -243,7 +243,7 @@
             // 
             txtRefNumber.Location = new Point(40, 141);
             txtRefNumber.Name = "txtRefNumber";
-            txtRefNumber.Size = new Size(190, 27);
+            txtRefNumber.Size = new Size(239, 27);
             txtRefNumber.TabIndex = 22;
             // 
             // lblRefNumber

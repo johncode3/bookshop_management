@@ -57,6 +57,9 @@ namespace BookShopWinFrm.BusinessLayer
                 txtRefNumber.ReadOnly = true;
                 dtmPurchaseDate.Value = DateTime.Now;
                 cmbEmployee.SelectedIndex = -1;
+                cmbStatus.Items.Clear();
+                cmbStatus.Items.Add("Completed");
+                cmbStatus.Items.Add("On Hold");
                 cmbStatus.SelectedItem = "Completed";
                 txtNote.Text = "";
 
@@ -67,6 +70,13 @@ namespace BookShopWinFrm.BusinessLayer
             }
             else
             {
+                if (cmbStatus.Items.Count == 0)
+                {
+                    cmbStatus.Items.Add("Completed");
+                    cmbStatus.Items.Add("On Hold");
+                    cmbStatus.Items.Add("Cancelled");
+                }
+
                 cmbVendor.SelectedValue = purchase.VendorId;
                 txtRefNumber.Text = purchase.RefNumber;
                 dtmPurchaseDate.Value = purchase.PurchaseDate;

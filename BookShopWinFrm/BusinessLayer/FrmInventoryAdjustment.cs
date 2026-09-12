@@ -35,6 +35,7 @@ namespace BookShopWinFrm.BusinessLayer
             if (this.Visible)
             {
                 LoadData();
+                ApplyPermissions();
             }
         }
 
@@ -101,7 +102,7 @@ namespace BookShopWinFrm.BusinessLayer
             dgInventoryAdjDetail.Columns["AdjustmentDate"].DisplayIndex = 1;
 
             dgInventoryAdjDetail.Columns["RefNumber"].HeaderText = "Ref Number";
-            dgInventoryAdjDetail.Columns["RefNumber"].Width = 150;
+            dgInventoryAdjDetail.Columns["RefNumber"].Width = 200;
             dgInventoryAdjDetail.Columns["RefNumber"].SortMode = DataGridViewColumnSortMode.NotSortable;
             dgInventoryAdjDetail.Columns["RefNumber"].DisplayIndex = 2;
 

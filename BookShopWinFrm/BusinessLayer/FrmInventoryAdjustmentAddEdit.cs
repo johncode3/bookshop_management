@@ -16,6 +16,7 @@ namespace BookShopWinFrm.BusinessLayer
     {
         InventoryAdjustment inventoryAdjustment;
         DataTable dtInventoryAdjustmentDetail;
+        DataTable originalInventoryAdjustmentDetail;
         bool newInventoryAdjustment;
         public FrmInventoryAdjustmentAddEdit(InventoryAdjustment inventoryAdjustment)
         {
@@ -71,6 +72,7 @@ namespace BookShopWinFrm.BusinessLayer
             }
 
             dgInvAdjDetail.DataSource = dtInventoryAdjustmentDetail;
+            originalInventoryAdjustmentDetail = dtInventoryAdjustmentDetail.Copy();
             UpdateTotalPrice();
         }
         void LoadEmployee()
@@ -131,7 +133,8 @@ namespace BookShopWinFrm.BusinessLayer
             if (!DoValidation())
                 return;
 
-            decimal grandTotal = CalculateInventoryAdjustmentTotalFromDataTable();
+            if (!CanApplyInventoryAdjustmentChanges())
+                return;
 
             if (newInventoryAdjustment)
             {
@@ -163,7 +166,12 @@ namespace BookShopWinFrm.BusinessLayer
             }
             else
             {
+                ReverseOriginalInventoryAdjustmentStock();
+
                 InventoryAdjustmentService.DeleteDetail(inventoryAdjustment.InventoryAdjustmentId);
+                inventoryAdjustment.AdjustmentDate = dtmInvAdjDate.Value.Date;
+                inventoryAdjustment.EmployeeId = Convert.ToInt32(cmbEmployee.SelectedValue);
+                inventoryAdjustment.Note = txtNote.Text.Trim();
                 InventoryAdjustmentService.Update(inventoryAdjustment);
 
                 foreach (DataRow dr in dtInventoryAdjustmentDetail.Rows)
@@ -185,6 +193,81 @@ namespace BookShopWinFrm.BusinessLayer
 
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private bool CanApplyInventoryAdjustmentChanges()
+        {
+            DataTable baseline = originalInventoryAdjustmentDetail ?? dtInventoryAdjustmentDetail.Copy();
+            Dictionary<int, decimal> oldTotals = BuildQuantityMap(baseline);
+            Dictionary<int, decimal> newTotals = BuildQuantityMap(dtInventoryAdjustmentDetail);
+
+            foreach (int itemId in newTotals.Keys.Union(oldTotals.Keys))
+            {
+                decimal oldQty = oldTotals.ContainsKey(itemId) ? oldTotals[itemId] : 0m;
+                decimal newQty = newTotals.ContainsKey(itemId) ? newTotals[itemId] : 0m;
+                decimal currentQty = GetCurrentItemQuantity(itemId);
+                decimal futureQty = currentQty - oldQty + newQty;
+                if (futureQty < 0)
+                {
+                    MessageBox.Show($"Item {itemId} cannot go below zero stock.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private void ReverseOriginalInventoryAdjustmentStock()
+        {
+            if (originalInventoryAdjustmentDetail == null)
+                return;
+
+            Dictionary<int, decimal> oldTotals = BuildQuantityMap(originalInventoryAdjustmentDetail);
+            foreach (KeyValuePair<int, decimal> entry in oldTotals)
+            {
+                AdjustItemQuantity(entry.Key, -entry.Value);
+            }
+        }
+
+        private Dictionary<int, decimal> BuildQuantityMap(DataTable table)
+        {
+            Dictionary<int, decimal> totals = new Dictionary<int, decimal>();
+            if (table == null)
+                return totals;
+
+            foreach (DataRow row in table.Rows)
+            {
+                if (!TryGetItemId(row, out int itemId))
+                    continue;
+
+                decimal quantity = Convert.ToDecimal(row["Quantity"] == DBNull.Value ? 0 : row["Quantity"]);
+                if (totals.ContainsKey(itemId))
+                    totals[itemId] += quantity;
+                else
+                    totals[itemId] = quantity;
+            }
+
+            return totals;
+        }
+
+        private decimal GetCurrentItemQuantity(int itemId)
+        {
+            Item item = ItemService.Get(itemId);
+            return item != null ? item.Quantity : 0m;
+        }
+
+        private void AdjustItemQuantity(int itemId, decimal delta)
+        {
+            Item item = ItemService.Get(itemId);
+            if (item == null)
+                return;
+
+            decimal newQuantity = item.Quantity + delta;
+            if (newQuantity < 0)
+                newQuantity = 0;
+
+            item.Quantity = newQuantity;
+            ItemService.Update(item);
         }
 
         bool DoValidation()
@@ -249,9 +332,9 @@ namespace BookShopWinFrm.BusinessLayer
                             row.Cells["Description"].Value = foundRows[0]["ItemDescription"]?.ToString() ?? "";
                             row.Cells["UnitPrice"].Value = foundRows[0]["SalePrice"] != DBNull.Value ? Convert.ToDecimal(foundRows[0]["SalePrice"]) : 0m;
 
-                            if (row.Cells["Quantity"].Value == null || row.Cells["Quantity"].Value == DBNull.Value || Convert.ToDecimal(row.Cells["Quantity"].Value) <= 0)
+                            if (row.Cells["Quantity"].Value == null || row.Cells["Quantity"].Value == DBNull.Value || Convert.ToDecimal(row.Cells["Quantity"].Value) == 0)
                             {
-                                row.Cells["Quantity"].Value = 1m;
+                                row.Cells["Quantity"].Value = -1m;
                             }
                         }
                     }

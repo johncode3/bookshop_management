@@ -54,7 +54,13 @@ namespace BookShopWinFrm.BusinessLayer
                 cmbCustomer.SelectedIndex = -1;
                 dtmSaleDate.Value = DateTime.Now;
                 cmbEmployee.SelectedIndex = -1;
+
+                // Setup status items for NEW sale (Hide Cancelled)
+                cmbStatus.Items.Clear();
+                cmbStatus.Items.Add("Completed");
+                cmbStatus.Items.Add("On Hold");
                 cmbStatus.SelectedItem = "Completed";
+
                 txtNote.Text = "";
                 txtRefNumber.Text = "INV-" + DateTime.Now.ToString("yyyyMMdd-HHmm");
                 txtRefNumber.ReadOnly = true;
@@ -66,10 +72,20 @@ namespace BookShopWinFrm.BusinessLayer
             }
             else
             {
+                // Setup status items for EDIT mode (Include Cancelled)
+                if (!cmbStatus.Items.Contains("Cancelled"))
+                {
+                    cmbStatus.Items.Clear();
+                    cmbStatus.Items.Add("Completed");
+                    cmbStatus.Items.Add("On Hold");
+                    cmbStatus.Items.Add("Cancelled");
+                }
+
                 cmbCustomer.SelectedValue = sale.CustomerId;
                 txtRefNumber.Text = sale.RefNumber;
                 dtmSaleDate.Value = sale.SaleDate;
                 cmbEmployee.SelectedValue = sale.EmployeeId;
+
                 if (!string.IsNullOrEmpty(sale.Status))
                 {
                     cmbStatus.SelectedItem = sale.Status;
@@ -78,6 +94,7 @@ namespace BookShopWinFrm.BusinessLayer
                 {
                     cmbStatus.SelectedItem = "Completed";
                 }
+
                 txtNote.Text = sale.Note;
                 dtSaleDetail = SaleService.GetDetail(sale.SaleId);
 
@@ -88,7 +105,7 @@ namespace BookShopWinFrm.BusinessLayer
                     cmbEmployee.Enabled = false;
                     txtRefNumber.ReadOnly = true;
                     dtmSaleDate.Enabled = false;
-                    txtNote.ReadOnly = false;
+                    txtNote.ReadOnly = true;
                     cmbStatus.Enabled = false;
                 }
             }
@@ -96,6 +113,7 @@ namespace BookShopWinFrm.BusinessLayer
             dgSaleDetail.DataSource = dtSaleDetail;
             UpdateTotalPrice();
         }
+
         void LoadCustomer()
         {
             DataTable dtCustomer = CustomerService.GetAll();

@@ -130,6 +130,12 @@ namespace BookShopWinFrm.BusinessLayer
                 txtQuantity.Focus();
                 return false;
             }
+            else if (!decimal.TryParse(txtQuantity.Text.Trim(), out decimal quantity) || quantity < 0)
+            {
+                MessageBox.Show("Quantity cannot be negative.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtQuantity.Focus();
+                return false;
+            }
             else if (!decimal.TryParse(txtRating.Text.Trim(), out decimal rating) || rating < 0 || rating > 5)
             {
                 MessageBox.Show("Rating must be a number between 0 and 5.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

@@ -35,6 +35,7 @@ namespace BookShopWinFrm.BusinessLayer
             if (this.Visible)
             {
                 LoadData();
+                ApplyPermissions();
             }
         }
 

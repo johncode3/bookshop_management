@@ -94,7 +94,12 @@ namespace BookShopWinFrm.BusinessLayer
             if (submnuItemList != null) submnuItemList.Visible = false;
             if (submnuInventoryAdjTransaction != null) submnuInventoryAdjTransaction.Visible = false;
             if (submnuEmployeeList != null) submnuEmployeeList.Visible = false;
+            if (mnuUserCenter != null) mnuUserCenter.Visible = false;
+            if (pnlSubUserManagement != null) pnlSubUserManagement.Visible = false;
+            if (submnuUserAccountPerssion != null) submnuUserAccountPerssion.Visible = false;
             if (submnuUserAccountPermission != null) submnuUserAccountPermission.Visible = false;
+
+            CloseUnauthorizedOpenForms();
 
             if (this.UserLogin.IsAdmin)
             {
@@ -105,6 +110,9 @@ namespace BookShopWinFrm.BusinessLayer
                 if (submnuItemList != null) submnuItemList.Visible = true;
                 if (submnuInventoryAdjTransaction != null) submnuInventoryAdjTransaction.Visible = true;
                 if (submnuEmployeeList != null) submnuEmployeeList.Visible = true;
+                if (mnuUserCenter != null) mnuUserCenter.Visible = true;
+                if (pnlSubUserManagement != null) pnlSubUserManagement.Visible = true;
+                if (submnuUserAccountPerssion != null) submnuUserAccountPerssion.Visible = true;
                 if (submnuUserAccountPermission != null) submnuUserAccountPermission.Visible = true;
                 return;
             }
@@ -127,6 +135,18 @@ namespace BookShopWinFrm.BusinessLayer
                     if (permName == "UserView" && submnuUserAccountPermission != null) submnuUserAccountPermission.Visible = true;
                 }
             }
+        }
+
+        private void CloseUnauthorizedOpenForms()
+        {
+            if (frmCustomer != null && !frmCustomer.IsDisposed && !submnuCustomerList.Visible) frmCustomer.Close();
+            if (frmSale != null && !frmSale.IsDisposed && !submnuSaleTransaction.Visible) frmSale.Close();
+            if (frmVendor != null && !frmVendor.IsDisposed && !submnuVendorList.Visible) frmVendor.Close();
+            if (frmPurchase != null && !frmPurchase.IsDisposed && !submnuPurchaseTransction.Visible) frmPurchase.Close();
+            if (frmItem != null && !frmItem.IsDisposed && !submnuItemList.Visible) frmItem.Close();
+            if (frmInventoryAdjustment != null && !frmInventoryAdjustment.IsDisposed && !submnuInventoryAdjTransaction.Visible) frmInventoryAdjustment.Close();
+            if (frmEmployee != null && !frmEmployee.IsDisposed && !submnuEmployeeList.Visible) frmEmployee.Close();
+            if (frmUser != null && !frmUser.IsDisposed && !mnuUserCenter.Visible) frmUser.Close();
         }
 
         private void mnuCustomerCenter_Click(object sender, EventArgs e)
@@ -173,6 +193,11 @@ namespace BookShopWinFrm.BusinessLayer
             if (frmCustomer == null || frmCustomer.IsDisposed)
             {
                 frmCustomer = new FrmCustomer();
+                frmCustomer.UserPermissions = dtUserPermission;
+            }
+            else
+            {
+                frmCustomer.UserPermissions = dtUserPermission;
             }
             LoadFormIntoPanel(frmCustomer);
             SetActiveMenuPanel(submnuCustomerList);
@@ -183,6 +208,11 @@ namespace BookShopWinFrm.BusinessLayer
             if (frmSale == null || frmSale.IsDisposed)
             {
                 frmSale = new FrmSale();
+                frmSale.UserPermissions = dtUserPermission;
+            }
+            else
+            {
+                frmSale.UserPermissions = dtUserPermission;
             }
             LoadFormIntoPanel(frmSale);
             SetActiveMenuPanel(submnuSaleTransaction);
@@ -193,6 +223,11 @@ namespace BookShopWinFrm.BusinessLayer
             if (frmVendor == null || frmVendor.IsDisposed)
             {
                 frmVendor = new FrmVendor();
+                frmVendor.UserPermissions = dtUserPermission;
+            }
+            else
+            {
+                frmVendor.UserPermissions = dtUserPermission;
             }
             LoadFormIntoPanel(frmVendor);
             SetActiveMenuPanel(submnuVendorList);
@@ -203,6 +238,11 @@ namespace BookShopWinFrm.BusinessLayer
             if (frmPurchase == null || frmPurchase.IsDisposed)
             {
                 frmPurchase = new FrmPurchase();
+                frmPurchase.UserPermissions = dtUserPermission;
+            }
+            else
+            {
+                frmPurchase.UserPermissions = dtUserPermission;
             }
             LoadFormIntoPanel(frmPurchase);
             SetActiveMenuPanel(submnuPurchaseTransction);
@@ -213,6 +253,11 @@ namespace BookShopWinFrm.BusinessLayer
             if (frmItem == null || frmItem.IsDisposed)
             {
                 frmItem = new FrmItem();
+                frmItem.UserPermissions = dtUserPermission;
+            }
+            else
+            {
+                frmItem.UserPermissions = dtUserPermission;
             }
             LoadFormIntoPanel(frmItem);
             SetActiveMenuPanel(submnuItemList);
@@ -223,6 +268,11 @@ namespace BookShopWinFrm.BusinessLayer
             if (frmInventoryAdjustment == null || frmInventoryAdjustment.IsDisposed)
             {
                 frmInventoryAdjustment = new FrmInventoryAdjustment();
+                frmInventoryAdjustment.UserPermissions = dtUserPermission;
+            }
+            else
+            {
+                frmInventoryAdjustment.UserPermissions = dtUserPermission;
             }
             LoadFormIntoPanel(frmInventoryAdjustment);
             SetActiveMenuPanel(submnuInventoryAdjTransaction);
@@ -233,6 +283,11 @@ namespace BookShopWinFrm.BusinessLayer
             if (frmEmployee == null || frmEmployee.IsDisposed)
             {
                 frmEmployee = new FrmEmployee();
+                frmEmployee.UserPermissions = dtUserPermission;
+            }
+            else
+            {
+                frmEmployee.UserPermissions = dtUserPermission;
             }
             LoadFormIntoPanel(frmEmployee);
             SetActiveMenuPanel(submnuEmployeeList);
@@ -243,6 +298,11 @@ namespace BookShopWinFrm.BusinessLayer
             if (frmUser == null || frmUser.IsDisposed)
             {
                 frmUser = new FrmUser();
+                frmUser.UserPermissions = dtUserPermission;
+            }
+            else
+            {
+                frmUser.UserPermissions = dtUserPermission;
             }
             LoadFormIntoPanel(frmUser);
             SetActiveMenuPanel(submnuUserAccountPerssion);
@@ -351,6 +411,11 @@ namespace BookShopWinFrm.BusinessLayer
             CurrentUser = null;
             lblUserName.Text = string.Empty;
             picProfile.Image = null;
+            if (activeMenuPanel != null)
+            {
+                activeMenuPanel.BackColor = Color.Transparent;
+                activeMenuPanel = null;
+            }
 
             this.Hide();
             using (FrmLogin frmLogin = new FrmLogin(this))
@@ -358,6 +423,11 @@ namespace BookShopWinFrm.BusinessLayer
                 if (frmLogin.ShowDialog() == DialogResult.OK)
                 {
                     LoadUserPermission();
+                    if (pnlMain.Controls.Contains(frmDashboard))
+                    {
+                        LoadFormIntoPanel(frmDashboard);
+                        SetActiveMenuPanel(mnuDashbaord);
+                    }
                     this.Show();
                 }
                 else

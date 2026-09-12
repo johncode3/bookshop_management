@@ -35,6 +35,7 @@ namespace BookShopWinFrm.BusinessLayer
             if (this.Visible)
             {
                 LoadData();
+                ApplyPermissions();
             }
         }
 
@@ -110,7 +111,7 @@ namespace BookShopWinFrm.BusinessLayer
             dgItems.Columns["ItemName"].DisplayIndex = 1;
 
             dgItems.Columns["Category"].HeaderText = "Category";
-            dgItems.Columns["Category"].Width = 150;
+            dgItems.Columns["Category"].Width = 200;
             dgItems.Columns["Category"].DisplayIndex = 2;
 
             dgItems.Columns["Author"].HeaderText = "Author";

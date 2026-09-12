@@ -35,6 +35,7 @@ namespace BookShopWinFrm.BusinessLayer
             if (this.Visible)
             {
                 LoadData();
+                ApplyPermissions();
             }
         }
 
@@ -109,7 +110,7 @@ namespace BookShopWinFrm.BusinessLayer
             dgSales.Columns["SaleDate"].DisplayIndex = 1;
 
             dgSales.Columns["RefNumber"].HeaderText = "RefNumber";
-            dgSales.Columns["RefNumber"].Width = 150;
+            dgSales.Columns["RefNumber"].Width = 200;
             dgSales.Columns["RefNumber"].SortMode = DataGridViewColumnSortMode.NotSortable;
             dgSales.Columns["RefNumber"].Visible = true;
             dgSales.Columns["RefNumber"].DisplayIndex = 2;

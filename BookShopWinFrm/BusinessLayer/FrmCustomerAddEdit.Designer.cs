@@ -189,8 +189,9 @@
             // txtAddress
             // 
             txtAddress.Location = new Point(293, 284);
+            txtAddress.Multiline = true;
             txtAddress.Name = "txtAddress";
-            txtAddress.Size = new Size(206, 27);
+            txtAddress.Size = new Size(206, 68);
             txtAddress.TabIndex = 17;
             // 
             // label7
