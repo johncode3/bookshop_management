@@ -337,7 +337,6 @@ Begin
     Where CustomerId = P_CustomerId;
     Commit;
 End;
-Commit;
 /
 --Store Procedure
 -- 1. EmployeeGet
